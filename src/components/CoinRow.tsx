@@ -98,8 +98,8 @@ export default function CoinRow({ coin }: CoinRowProps) {
       </tr>
 
       {expanded && (
-        <tr className="bg-gray-50 dark:bg-gray-900 border-t-4 border-blue-500">
-          <td colSpan={10} className="px-6 py-6">
+        <tr className="bg-gray-100 dark:bg-gray-800">
+          <td colSpan={10} className="pl-16 pr-6 py-6">
             <div className="flex gap-6">
               {/* Left side - Score components grid */}
               <div className="flex-1">
