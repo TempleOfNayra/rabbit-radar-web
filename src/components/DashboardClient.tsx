@@ -99,8 +99,27 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
   };
 
   const getSortIcon = (field: SortField) => {
-    if (sortField !== field) return '↕️';
-    return sortDirection === 'asc' ? '↑' : '↓';
+    const isActive = sortField === field;
+    const isAsc = sortDirection === 'asc';
+
+    return (
+      <span className="inline-flex ml-1 w-4 h-4 items-center justify-center">
+        {!isActive ? (
+          <svg className="w-3 h-3 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M5 10l5-5 5 5H5z" />
+            <path d="M5 10l5 5 5-5H5z" />
+          </svg>
+        ) : isAsc ? (
+          <svg className="w-3 h-3 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+          </svg>
+        ) : (
+          <svg className="w-3 h-3 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
+          </svg>
+        )}
+      </span>
+    );
   };
 
   return (
@@ -183,42 +202,60 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
                 <tr>
                   <th
                     onClick={() => handleSort('rank')}
-                    className="px-6 py-4 text-left font-semibold cursor-pointer hover:bg-gray-700 transition-colors"
+                    className="px-6 py-4 text-left font-semibold cursor-pointer hover:bg-gray-700 transition-colors select-none"
                   >
-                    Rank {getSortIcon('rank')}
+                    <div className="flex items-center">
+                      Rank
+                      {getSortIcon('rank')}
+                    </div>
                   </th>
                   <th className="px-6 py-4 text-left font-semibold">Velocity</th>
                   <th className="px-6 py-4 text-left font-semibold">Coin</th>
                   <th
                     onClick={() => handleSort('price')}
-                    className="px-6 py-4 text-right font-semibold cursor-pointer hover:bg-gray-700 transition-colors"
+                    className="px-6 py-4 text-right font-semibold cursor-pointer hover:bg-gray-700 transition-colors select-none"
                   >
-                    Price {getSortIcon('price')}
+                    <div className="flex items-center justify-end">
+                      Price
+                      {getSortIcon('price')}
+                    </div>
                   </th>
                   <th
                     onClick={() => handleSort('market_cap')}
-                    className="px-6 py-4 text-right font-semibold cursor-pointer hover:bg-gray-700 transition-colors"
+                    className="px-6 py-4 text-right font-semibold cursor-pointer hover:bg-gray-700 transition-colors select-none"
                   >
-                    Market Cap {getSortIcon('market_cap')}
+                    <div className="flex items-center justify-end">
+                      Market Cap
+                      {getSortIcon('market_cap')}
+                    </div>
                   </th>
                   <th
                     onClick={() => handleSort('volume_24h')}
-                    className="px-6 py-4 text-right font-semibold cursor-pointer hover:bg-gray-700 transition-colors"
+                    className="px-6 py-4 text-right font-semibold cursor-pointer hover:bg-gray-700 transition-colors select-none"
                   >
-                    24h Volume {getSortIcon('volume_24h')}
+                    <div className="flex items-center justify-end">
+                      24h Volume
+                      {getSortIcon('volume_24h')}
+                    </div>
                   </th>
                   <th
                     onClick={() => handleSort('rr_score')}
-                    className="px-6 py-4 text-right font-semibold cursor-pointer hover:bg-gray-700 transition-colors"
+                    className="px-6 py-4 text-right font-semibold cursor-pointer hover:bg-gray-700 transition-colors select-none"
                   >
-                    RR Score {getSortIcon('rr_score')}
+                    <div className="flex items-center justify-end">
+                      RR Score
+                      {getSortIcon('rr_score')}
+                    </div>
                   </th>
                   <th className="px-6 py-4 text-right font-semibold">Phase</th>
                   <th
                     onClick={() => handleSort('days_tracking')}
-                    className="px-6 py-4 text-right font-semibold cursor-pointer hover:bg-gray-700 transition-colors"
+                    className="px-6 py-4 text-right font-semibold cursor-pointer hover:bg-gray-700 transition-colors select-none"
                   >
-                    Days {getSortIcon('days_tracking')}
+                    <div className="flex items-center justify-end">
+                      Days
+                      {getSortIcon('days_tracking')}
+                    </div>
                   </th>
                 </tr>
               </thead>
