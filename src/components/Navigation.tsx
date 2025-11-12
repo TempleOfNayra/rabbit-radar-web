@@ -11,6 +11,7 @@ export default function Navigation() {
     { href: '/watchlist', label: 'Watch List', icon: '👀' },
     { href: '/trophy-room', label: 'Trophy Room', icon: '🏆' },
     { href: '/how-it-works', label: 'How It Works', icon: '❓' },
+    { href: '/status', label: 'Status', icon: '💚' },
   ];
 
   return (
