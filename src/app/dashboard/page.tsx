@@ -4,6 +4,7 @@
 
 import rabbitRadarAPI from '@/lib/api';
 import DashboardClient from '@/components/DashboardClient';
+import BtcDominanceCard from '@/components/BtcDominanceCard';
 import { formatRelativeTime } from '@/lib/utils';
 
 export const revalidate = 60; // Revalidate every 60 seconds
@@ -30,21 +31,10 @@ export default async function Dashboard() {
 
         {/* Market Context */}
         {data.marketContext && data.marketContext.btcDominance && (
-          <div className="mb-6 p-6 bg-gradient-to-r from-blue-900/40 to-purple-900/40 rounded-lg border border-blue-800/50">
-            <div className="flex items-center justify-between">
-              <div>
-                <span className="text-sm text-blue-400 font-semibold">BTC Dominance:</span>
-                <span className="ml-2 font-bold text-2xl text-white">
-                  {typeof data.marketContext.btcDominance === 'number'
-                    ? data.marketContext.btcDominance.toFixed(2)
-                    : data.marketContext.btcDominance}%
-                </span>
-              </div>
-              <div className="text-sm text-gray-400">
-                Updated {formatRelativeTime(data.timestamp)}
-              </div>
-            </div>
-          </div>
+          <BtcDominanceCard
+            btcDominance={data.marketContext.btcDominance}
+            timestamp={data.timestamp}
+          />
         )}
 
         {/* Stats */}
