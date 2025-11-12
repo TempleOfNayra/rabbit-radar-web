@@ -5,7 +5,7 @@
 
 import Link from 'next/link';
 
-export const revalidate = 30; // Revalidate every 30 seconds
+export const dynamic = 'force-dynamic'; // Always fetch fresh data, no static generation
 
 interface StatusResponse {
   success: boolean;
@@ -208,7 +208,7 @@ export default async function StatusPage() {
                     <span className="text-gray-400">Last Run:</span>
                     <span className="text-white font-mono">{formatRelativeTime(job.lastRun)}</span>
                   </div>
-                  {job.hoursSinceLastRun !== undefined && job.hoursSinceLastRun !== null && (
+                  {job.hoursSinceLastRun !== undefined && job.hoursSinceLastRun !== null && typeof job.hoursSinceLastRun === 'number' && (
                     <div className="flex justify-between">
                       <span className="text-gray-400">Hours Since:</span>
                       <span className="text-white">{job.hoursSinceLastRun.toFixed(1)}h</span>
@@ -220,7 +220,7 @@ export default async function StatusPage() {
                       <span className="text-white">{job.coinsWithMetadata}</span>
                     </div>
                   )}
-                  {job.btcDominance !== undefined && job.btcDominance !== null && (
+                  {job.btcDominance !== undefined && job.btcDominance !== null && typeof job.btcDominance === 'number' && (
                     <div className="flex justify-between">
                       <span className="text-gray-400">BTC Dominance:</span>
                       <span className="text-white">{job.btcDominance.toFixed(2)}%</span>
