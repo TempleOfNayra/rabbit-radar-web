@@ -90,3 +90,29 @@ export function formatRelativeTime(timestamp: string): string {
   if (hours < 24) return `${hours}h ago`;
   return `${days}d ago`;
 }
+
+/**
+ * Calculate velocity badge (base_velocity is the key metric)
+ */
+export function getVelocityBadge(baseVelocity: number | string | null): {
+  label: string;
+  color: string;
+  icon: string;
+} {
+  if (baseVelocity === null || baseVelocity === undefined) {
+    return { label: 'No Data', color: 'bg-gray-100 text-gray-600', icon: '⏸️' };
+  }
+
+  const velocity = typeof baseVelocity === 'string' ? parseFloat(baseVelocity) : baseVelocity;
+  if (isNaN(velocity)) {
+    return { label: 'No Data', color: 'bg-gray-100 text-gray-600', icon: '⏸️' };
+  }
+
+  // Velocity thresholds (negative = climbing, positive = falling)
+  if (velocity <= -5) return { label: 'Rocket', color: 'bg-green-100 text-green-800', icon: '🚀' };
+  if (velocity <= -2) return { label: 'Fast', color: 'bg-green-50 text-green-700', icon: '⬆️' };
+  if (velocity <= -0.5) return { label: 'Rising', color: 'bg-blue-50 text-blue-700', icon: '↗️' };
+  if (velocity < 0.5) return { label: 'Stable', color: 'bg-gray-50 text-gray-700', icon: '→' };
+  if (velocity < 2) return { label: 'Falling', color: 'bg-orange-50 text-orange-700', icon: '↘️' };
+  return { label: 'Dropping', color: 'bg-red-50 text-red-700', icon: '⬇️' };
+}

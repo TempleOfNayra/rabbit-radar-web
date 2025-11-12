@@ -5,7 +5,7 @@
 
 import Link from 'next/link';
 import { CoinData } from '@/lib/types';
-import { formatNumber, formatPrice, getScoreColor, getPhaseColor } from '@/lib/utils';
+import { formatNumber, formatPrice, getScoreColor, getPhaseColor, getVelocityBadge } from '@/lib/utils';
 
 interface CoinTableProps {
   coins: CoinData[];
@@ -18,6 +18,7 @@ export default function CoinTable({ coins }: CoinTableProps) {
         <thead className="text-xs uppercase bg-gray-100 dark:bg-gray-800">
           <tr>
             <th className="px-6 py-3">Rank</th>
+            <th className="px-6 py-3">Velocity</th>
             <th className="px-6 py-3">Coin</th>
             <th className="px-6 py-3">Price</th>
             <th className="px-6 py-3">Market Cap</th>
@@ -34,6 +35,26 @@ export default function CoinTable({ coins }: CoinTableProps) {
               className="border-b hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
             >
               <td className="px-6 py-4 font-medium">{coin.rank}</td>
+              <td className="px-6 py-4">
+                {(() => {
+                  const velocity = typeof coin.base_velocity === 'string'
+                    ? parseFloat(coin.base_velocity)
+                    : coin.base_velocity;
+
+                  if (velocity === null || velocity === undefined || isNaN(velocity)) {
+                    return <span className="text-gray-400">N/A</span>;
+                  }
+
+                  const badge = getVelocityBadge(velocity);
+                  return (
+                    <div className="flex items-center gap-2">
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${badge.color}`}>
+                        {badge.icon} {velocity.toFixed(2)}
+                      </span>
+                    </div>
+                  );
+                })()}
+              </td>
               <td className="px-6 py-4">
                 <Link
                   href={`/coin/${coin.coin_id}`}
