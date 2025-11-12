@@ -197,7 +197,18 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full table-fixed">
+              <colgroup>
+                <col className="w-20" /> {/* Rank */}
+                <col className="w-24" /> {/* Velocity */}
+                <col className="w-48" /> {/* Coin */}
+                <col className="w-32" /> {/* Price */}
+                <col className="w-36" /> {/* Market Cap */}
+                <col className="w-36" /> {/* 24h Volume */}
+                <col className="w-28" /> {/* RR Score */}
+                <col className="w-28" /> {/* Phase */}
+                <col className="w-24" /> {/* Days */}
+              </colgroup>
               <thead className="bg-gray-800 text-sm">
                 <tr>
                   <th
