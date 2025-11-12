@@ -3,8 +3,10 @@
  */
 
 import rabbitRadarAPI from '@/lib/api';
-import CoinTable from '@/components/CoinTable';
+import DashboardClient from '@/components/DashboardClient';
 import { formatRelativeTime } from '@/lib/utils';
+
+export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function Dashboard() {
   // Fetch dashboard data (default: rank 100-1000, no score filter, no limit = all coins)
@@ -65,10 +67,8 @@ export default async function Dashboard() {
           </div>
         </div>
 
-        {/* Coin Table */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-          <CoinTable coins={data.data} />
-        </div>
+        {/* Coin Table with Filters */}
+        <DashboardClient initialCoins={data.data} />
 
         {/* Footer */}
         <div className="mt-6 text-center text-sm text-gray-500">

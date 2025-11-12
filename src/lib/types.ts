@@ -50,6 +50,8 @@ export interface WatchListItem {
   initial_score: number;
   current_rank: number;
   current_score: number;
+  peak_rank?: number;
+  peak_date?: string;
   status: string;
   notes: string | null;
 }
@@ -69,9 +71,22 @@ export interface CoinHistory {
   price: number;
 }
 
+export interface ScoreHistory {
+  timestamp: string;
+  rr_score: number;
+  consistency_score: number;
+  volume_score: number;
+  persistence_score: number;
+  red_flags_penalty: number;
+  base_velocity: number;
+}
+
 export interface CoinDetailsResponse {
   success: boolean;
-  coin: CoinData;
-  history: CoinHistory[];
+  data: {
+    coin: CoinData;
+    rankHistory: CoinHistory[];
+    scoreHistory: ScoreHistory[];
+  };
   timestamp: string;
 }
