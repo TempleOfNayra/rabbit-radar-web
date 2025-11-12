@@ -9,9 +9,9 @@ import { formatRelativeTime } from '@/lib/utils';
 export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function Dashboard() {
-  // Fetch dashboard data (default: rank 100-1000, no score filter, no limit = all coins)
+  // Fetch dashboard data (default: rank 1-1000, no score filter, no limit = all coins)
   const data = await rabbitRadarAPI.getDashboard({
-    minRank: 100,
+    minRank: 1,
     maxRank: 1000,
   });
 
@@ -73,10 +73,10 @@ export default async function Dashboard() {
         {/* Footer */}
         <div className="mt-6 text-center text-sm text-gray-400">
           <p>
-            RabbitRadar tracks coins ranked 100-1000 to identify high-velocity altcoins.
+            RabbitRadar tracks the top 1000 coins to identify high-velocity movers with strong momentum.
           </p>
           <p className="mt-2 text-gray-500">
-            Powered by CoinGecko API • Data updates every 5 minutes
+            Powered by CoinGecko API • Data updates every 12 hours
           </p>
         </div>
       </div>
