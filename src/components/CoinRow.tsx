@@ -18,86 +18,92 @@ export default function CoinRow({ coin }: CoinRowProps) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <>
-      {/* Main Row */}
-      <tr className="hover:bg-gray-800/50 transition-colors">
-        <td className="px-6 py-5 text-lg font-semibold">{coin.rank}</td>
-        <td className="px-6 py-5">
-          {(() => {
-            const velocity = typeof coin.base_velocity === 'string'
-              ? parseFloat(coin.base_velocity)
-              : coin.base_velocity;
+    <tr className={`border-b border-gray-800 ${expanded ? '' : ''}`}>
+      <td colSpan={9} className="p-0">
+        <div className="bg-gray-900/50">
+          {/* Main Row Content */}
+          <div className="grid grid-cols-9 gap-4 px-6 py-5 hover:bg-gray-800/50 transition-colors">
+            <div className="text-lg font-semibold">{coin.rank}</div>
 
-            if (velocity === null || velocity === undefined || isNaN(velocity)) {
-              return <span className="text-gray-400 text-base">N/A</span>;
-            }
+            <div>
+              {(() => {
+                const velocity = typeof coin.base_velocity === 'string'
+                  ? parseFloat(coin.base_velocity)
+                  : coin.base_velocity;
 
-            const badge = getVelocityBadge(velocity);
-            return (
-              <div className="flex items-center gap-2">
-                <span className={`px-3 py-1.5 rounded text-sm font-semibold ${badge.color}`}>
-                  {badge.icon} {velocity.toFixed(2)}
+                if (velocity === null || velocity === undefined || isNaN(velocity)) {
+                  return <span className="text-gray-400 text-base">N/A</span>;
+                }
+
+                const badge = getVelocityBadge(velocity);
+                return (
+                  <div className="flex items-center gap-2">
+                    <span className={`px-3 py-1.5 rounded text-sm font-semibold ${badge.color}`}>
+                      {badge.icon} {velocity.toFixed(2)}
+                    </span>
+                  </div>
+                );
+              })()}
+            </div>
+
+            <div>
+              <Link
+                href={`/coin/${coin.coin_id}`}
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="font-bold text-base">{coin.symbol.toUpperCase()}</div>
+                <div className="text-sm text-gray-500">{coin.name}</div>
+              </Link>
+            </div>
+
+            <div className="text-base font-medium text-right">{formatPrice(coin.price)}</div>
+            <div className="text-base font-medium text-right">{formatNumber(coin.market_cap)}</div>
+            <div className="text-base font-medium text-right">{formatNumber(coin.volume_24h)}</div>
+
+            <div className="text-right">
+              {(() => {
+                const score = typeof coin.rr_score === 'string' ? parseFloat(coin.rr_score) : coin.rr_score;
+                if (score === null || isNaN(score)) {
+                  return <span className="text-gray-400 text-base">N/A</span>;
+                }
+                return (
+                  <span className={`font-bold text-lg ${getScoreColor(score)}`}>
+                    {score.toFixed(2)}
+                  </span>
+                );
+              })()}
+            </div>
+
+            <div className="text-right">
+              {coin.phase ? (
+                <span className={`capitalize text-base font-medium ${getPhaseColor(coin.phase)}`}>
+                  {coin.phase}
                 </span>
-              </div>
-            );
-          })()}
-        </td>
-        <td className="px-6 py-5">
-          <Link
-            href={`/coin/${coin.coin_id}`}
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="font-bold text-base">{coin.symbol.toUpperCase()}</div>
-            <div className="text-sm text-gray-500">{coin.name}</div>
-          </Link>
-        </td>
-        <td className="px-6 py-5 text-base font-medium text-right">{formatPrice(coin.price)}</td>
-        <td className="px-6 py-5 text-base font-medium text-right">{formatNumber(coin.market_cap)}</td>
-        <td className="px-6 py-5 text-base font-medium text-right">{formatNumber(coin.volume_24h)}</td>
-        <td className="px-6 py-5 text-right">
-          {(() => {
-            const score = typeof coin.rr_score === 'string' ? parseFloat(coin.rr_score) : coin.rr_score;
-            if (score === null || isNaN(score)) {
-              return <span className="text-gray-400 text-base">N/A</span>;
-            }
-            return (
-              <span className={`font-bold text-lg ${getScoreColor(score)}`}>
-                {score.toFixed(2)}
-              </span>
-            );
-          })()}
-        </td>
-        <td className="px-6 py-5 text-right">
-          {coin.phase ? (
-            <span className={`capitalize text-base font-medium ${getPhaseColor(coin.phase)}`}>
-              {coin.phase}
-            </span>
-          ) : (
-            <span className="text-gray-400 text-base">N/A</span>
-          )}
-        </td>
-        <td className="px-6 py-5 text-right">
-          {(() => {
-            const days = typeof coin.days_tracking === 'string'
-              ? parseInt(coin.days_tracking)
-              : coin.days_tracking;
+              ) : (
+                <span className="text-gray-400 text-base">N/A</span>
+              )}
+            </div>
 
-            if (days === null || days === undefined || isNaN(days)) {
-              return <span className="text-gray-400 text-base">N/A</span>;
-            }
+            <div className="text-right">
+              {(() => {
+                const days = typeof coin.days_tracking === 'string'
+                  ? parseInt(coin.days_tracking)
+                  : coin.days_tracking;
 
-            return <span className="text-base font-medium">{days} {days === 1 ? 'day' : 'days'}</span>;
-          })()}
-        </td>
-      </tr>
+                if (days === null || days === undefined || isNaN(days)) {
+                  return <span className="text-gray-400 text-base">N/A</span>;
+                }
 
-      {/* Chevron Row - Click to expand */}
-      <tr className="border-b border-gray-800">
-        <td colSpan={9} className="px-6 py-0">
+                return <span className="text-base font-medium">{days} {days === 1 ? 'day' : 'days'}</span>;
+              })()}
+            </div>
+          </div>
+
+          {/* Chevron Button */}
           <button
             onClick={() => setExpanded(!expanded)}
-            className="w-full py-2 flex items-center justify-center hover:bg-gray-800/50 transition-colors cursor-pointer"
+            className="w-full py-2 flex items-center justify-center hover:bg-gray-800/30 transition-colors"
           >
             <svg
               className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${
@@ -110,13 +116,14 @@ export default function CoinRow({ coin }: CoinRowProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-        </td>
-      </tr>
 
-      {/* Expanded Details */}
-      {expanded && (
-        <tr className="bg-gray-800/30 border-b border-gray-800">
-          <td colSpan={9} className="px-6 py-6 transition-all duration-500 ease-in-out">
+          {/* Expanded Details */}
+          <div
+            className={`overflow-hidden transition-all duration-500 ease-in-out ${
+              expanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            }`}
+          >
+            <div className="px-6 py-6 bg-gray-900/50">
             <div className="flex gap-6">
               {/* Left side - Score components grid */}
               <div className="flex-1">
@@ -199,9 +206,10 @@ export default function CoinRow({ coin }: CoinRowProps) {
                 <div className="text-xs mt-1 opacity-80">out of 100</div>
               </div>
             </div>
-          </td>
-        </tr>
-      )}
-    </>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
   );
 }
