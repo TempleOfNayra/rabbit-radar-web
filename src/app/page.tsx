@@ -28,13 +28,15 @@ export default async function Dashboard() {
         </div>
 
         {/* Market Context */}
-        {data.marketContext && (
+        {data.marketContext && data.marketContext.btcDominance && (
           <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
                 <span className="text-sm text-gray-600 dark:text-gray-400">BTC Dominance:</span>
                 <span className="ml-2 font-bold text-lg">
-                  {data.marketContext.btcDominance.toFixed(2)}%
+                  {typeof data.marketContext.btcDominance === 'number'
+                    ? data.marketContext.btcDominance.toFixed(2)
+                    : data.marketContext.btcDominance}%
                 </span>
               </div>
               <div className="text-sm text-gray-500">
