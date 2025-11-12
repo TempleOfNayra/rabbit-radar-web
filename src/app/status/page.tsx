@@ -165,8 +165,29 @@ export default async function StatusPage() {
               <p className="text-xs text-gray-500 mt-2">
                 Updated {formatRelativeTime(status.timestamp)}
               </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Server Time: {new Date(status.timestamp).toLocaleString('en-US', {
+                  timeZone: 'UTC',
+                  hour12: false,
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  timeZoneName: 'short'
+                })}
+              </p>
             </div>
           </div>
+        </div>
+
+        {/* Timezone Info */}
+        <div className="mb-6 p-4 bg-blue-900/20 border border-blue-800 rounded-lg">
+          <p className="text-sm text-gray-300">
+            <strong className="text-blue-400">⏰ Timezone:</strong> All cron jobs run on <strong>UTC (Coordinated Universal Time)</strong>.
+            Metadata cron runs daily at <strong>02:00 UTC</strong> (2am UTC).
+          </p>
         </div>
 
         {/* Database Health */}
