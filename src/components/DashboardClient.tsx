@@ -197,17 +197,17 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full table-fixed">
+            <table className="w-full">
               <colgroup>
-                <col className="w-20" /> {/* Rank */}
-                <col className="w-24" /> {/* Velocity */}
-                <col className="w-48" /> {/* Coin */}
-                <col className="w-32" /> {/* Price */}
-                <col className="w-36" /> {/* Market Cap */}
-                <col className="w-36" /> {/* 24h Volume */}
-                <col className="w-28" /> {/* RR Score */}
-                <col className="w-28" /> {/* Phase */}
-                <col className="w-24" /> {/* Days */}
+                <col style={{ width: '5%', minWidth: '80px' }} /> {/* Rank */}
+                <col style={{ width: '8%', minWidth: '96px' }} /> {/* Velocity */}
+                <col style={{ width: '20%', minWidth: '192px' }} /> {/* Coin */}
+                <col style={{ width: '12%', minWidth: '128px' }} /> {/* Price */}
+                <col style={{ width: '15%', minWidth: '144px' }} /> {/* Market Cap */}
+                <col style={{ width: '15%', minWidth: '144px' }} /> {/* 24h Volume */}
+                <col style={{ width: '10%', minWidth: '112px' }} /> {/* RR Score */}
+                <col style={{ width: '10%', minWidth: '112px' }} /> {/* Phase */}
+                <col style={{ width: '5%', minWidth: '96px' }} /> {/* Days */}
               </colgroup>
               <thead className="bg-gray-800 text-sm">
                 <tr>
