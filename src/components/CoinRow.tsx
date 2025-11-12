@@ -98,14 +98,16 @@ export default function CoinRow({ coin }: CoinRowProps) {
       </tr>
 
       {expanded && (
-        <tr className="bg-gray-50 dark:bg-gray-900">
-          <td colSpan={10} className="px-6 py-4">
-            <div className="flex gap-4">
+        <tr className="bg-gray-50 dark:bg-gray-900 border-t-4 border-blue-500">
+          <td colSpan={10} className="px-6 py-6">
+            <div className="flex gap-6">
               {/* Left side - Score components grid */}
-              <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Score Breakdown</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {/* Consistency Score */}
-                <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                  <div className="text-xs text-gray-500 mb-1">Consistency Score</div>
+                <div className="p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/50 hover:border-blue-300 dark:hover:border-blue-600 transition-colors">
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Consistency Score</div>
                   <div className="text-lg font-bold">
                     {coin.consistency_score !== null && !isNaN(parseFloat(String(coin.consistency_score)))
                       ? `${parseFloat(String(coin.consistency_score)).toFixed(2)} / 10`
@@ -114,8 +116,8 @@ export default function CoinRow({ coin }: CoinRowProps) {
                 </div>
 
                 {/* Volume Score */}
-                <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                  <div className="text-xs text-gray-500 mb-1">Volume Score</div>
+                <div className="p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/50 hover:border-blue-300 dark:hover:border-blue-600 transition-colors">
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Volume Score</div>
                   <div className="text-lg font-bold">
                     {coin.volume_score !== null && !isNaN(parseFloat(String(coin.volume_score)))
                       ? `${parseFloat(String(coin.volume_score)).toFixed(2)} / 10`
@@ -124,8 +126,8 @@ export default function CoinRow({ coin }: CoinRowProps) {
                 </div>
 
                 {/* Persistence Score */}
-                <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                  <div className="text-xs text-gray-500 mb-1">Persistence Score</div>
+                <div className="p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/50 hover:border-blue-300 dark:hover:border-blue-600 transition-colors">
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Persistence Score</div>
                   <div className="text-lg font-bold">
                     {coin.persistence_score !== null && !isNaN(parseFloat(String(coin.persistence_score)))
                       ? `${parseFloat(String(coin.persistence_score)).toFixed(2)} / 10`
@@ -134,8 +136,8 @@ export default function CoinRow({ coin }: CoinRowProps) {
                 </div>
 
                 {/* Red Flags Penalty */}
-                <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                  <div className="text-xs text-gray-500 mb-1">Red Flags Penalty</div>
+                <div className="p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/50 hover:border-red-300 dark:hover:border-red-600 transition-colors">
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Red Flags Penalty</div>
                   <div className="text-lg font-bold text-red-600">
                     {coin.red_flags_penalty !== null && !isNaN(parseFloat(String(coin.red_flags_penalty)))
                       ? `-${parseFloat(String(coin.red_flags_penalty)).toFixed(2)} pts`
@@ -144,8 +146,8 @@ export default function CoinRow({ coin }: CoinRowProps) {
                 </div>
 
                 {/* Base Velocity */}
-                <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                  <div className="text-xs text-gray-500 mb-1">Base Velocity</div>
+                <div className="p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/50 hover:border-blue-300 dark:hover:border-blue-600 transition-colors">
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Base Velocity</div>
                   <div className="text-lg font-bold">
                     {coin.base_velocity !== null && !isNaN(parseFloat(String(coin.base_velocity)))
                       ? `${parseFloat(String(coin.base_velocity)).toFixed(2)} ranks/day`
@@ -154,8 +156,8 @@ export default function CoinRow({ coin }: CoinRowProps) {
                 </div>
 
                 {/* Market Context Multiplier */}
-                <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                  <div className="text-xs text-gray-500 mb-1">Market Context</div>
+                <div className="p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/50 hover:border-blue-300 dark:hover:border-blue-600 transition-colors">
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Market Context</div>
                   <div className="text-lg font-bold">
                     {coin.market_context_multiplier !== null && !isNaN(parseFloat(String(coin.market_context_multiplier)))
                       ? `${parseFloat(String(coin.market_context_multiplier)).toFixed(2)}x`
@@ -163,9 +165,10 @@ export default function CoinRow({ coin }: CoinRowProps) {
                   </div>
                 </div>
               </div>
+              </div>
 
               {/* Right side - Big RR Score Box */}
-              <div className="w-48 p-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex flex-col items-center justify-center text-white">
+              <div className="w-48 p-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg shadow-xl flex flex-col items-center justify-center text-white">
                 <div className="text-sm font-medium mb-2">🐰 RabbitRadar Score</div>
                 <div className="text-5xl font-bold">
                   {(() => {
