@@ -7,11 +7,10 @@ import CoinTable from '@/components/CoinTable';
 import { formatRelativeTime } from '@/lib/utils';
 
 export default async function Dashboard() {
-  // Fetch dashboard data (default: rank 100-1000, no score filter)
+  // Fetch dashboard data (default: rank 100-1000, no score filter, no limit = all coins)
   const data = await rabbitRadarAPI.getDashboard({
     minRank: 100,
     maxRank: 1000,
-    limit: 100, // Show first 100 coins
   });
 
   return (
