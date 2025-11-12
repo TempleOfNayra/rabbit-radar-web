@@ -19,10 +19,8 @@ export default function CoinRow({ coin }: CoinRowProps) {
 
   return (
     <>
-      <tr
-        className={`${!expanded ? 'border-b-4 border-gray-950' : ''} hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors cursor-pointer`}
-        onClick={() => setExpanded(!expanded)}
-      >
+      {/* Main Row */}
+      <tr className="hover:bg-gray-800/50 transition-colors">
         <td className="px-6 py-5 text-lg font-semibold">{coin.rank}</td>
         <td className="px-6 py-5">
           {(() => {
@@ -54,10 +52,10 @@ export default function CoinRow({ coin }: CoinRowProps) {
             <div className="text-sm text-gray-500">{coin.name}</div>
           </Link>
         </td>
-        <td className="px-6 py-5 text-base font-medium">{formatPrice(coin.price)}</td>
-        <td className="px-6 py-5 text-base font-medium">{formatNumber(coin.market_cap)}</td>
-        <td className="px-6 py-5 text-base font-medium">{formatNumber(coin.volume_24h)}</td>
-        <td className="px-6 py-5">
+        <td className="px-6 py-5 text-base font-medium text-right">{formatPrice(coin.price)}</td>
+        <td className="px-6 py-5 text-base font-medium text-right">{formatNumber(coin.market_cap)}</td>
+        <td className="px-6 py-5 text-base font-medium text-right">{formatNumber(coin.volume_24h)}</td>
+        <td className="px-6 py-5 text-right">
           {(() => {
             const score = typeof coin.rr_score === 'string' ? parseFloat(coin.rr_score) : coin.rr_score;
             if (score === null || isNaN(score)) {
@@ -70,7 +68,7 @@ export default function CoinRow({ coin }: CoinRowProps) {
             );
           })()}
         </td>
-        <td className="px-6 py-5">
+        <td className="px-6 py-5 text-right">
           {coin.phase ? (
             <span className={`capitalize text-base font-medium ${getPhaseColor(coin.phase)}`}>
               {coin.phase}
@@ -79,7 +77,7 @@ export default function CoinRow({ coin }: CoinRowProps) {
             <span className="text-gray-400 text-base">N/A</span>
           )}
         </td>
-        <td className="px-6 py-5">
+        <td className="px-6 py-5 text-right">
           {(() => {
             const days = typeof coin.days_tracking === 'string'
               ? parseInt(coin.days_tracking)
@@ -92,14 +90,33 @@ export default function CoinRow({ coin }: CoinRowProps) {
             return <span className="text-base font-medium">{days} {days === 1 ? 'day' : 'days'}</span>;
           })()}
         </td>
-        <td className="px-6 py-5 text-gray-400 text-lg">
-          {expanded ? '▼' : '▶'}
+      </tr>
+
+      {/* Chevron Row - Click to expand */}
+      <tr className="border-b border-gray-800">
+        <td colSpan={9} className="px-6 py-0">
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="w-full py-2 flex items-center justify-center hover:bg-gray-800/50 transition-colors cursor-pointer"
+          >
+            <svg
+              className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${
+                expanded ? 'rotate-180' : ''
+              }`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
         </td>
       </tr>
 
+      {/* Expanded Details */}
       {expanded && (
-        <tr className="bg-gray-100 dark:bg-gray-800 border-b-8 border-gray-950">
-          <td colSpan={10} className="pl-16 pr-6 py-6 pb-8">
+        <tr className="bg-gray-800/30 border-b border-gray-800">
+          <td colSpan={9} className="px-6 py-6 transition-all duration-500 ease-in-out">
             <div className="flex gap-6">
               {/* Left side - Score components grid */}
               <div className="flex-1">
