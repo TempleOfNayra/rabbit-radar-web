@@ -3,9 +3,8 @@
  * Displays coins with their ranking and RabbitRadar scores
  */
 
-import Link from 'next/link';
 import { CoinData } from '@/lib/types';
-import { formatNumber, formatPrice, getScoreColor, getPhaseColor, getVelocityBadge } from '@/lib/utils';
+import CoinRow from './CoinRow';
 
 interface CoinTableProps {
   coins: CoinData[];
@@ -26,83 +25,12 @@ export default function CoinTable({ coins }: CoinTableProps) {
             <th className="px-6 py-3">RR Score</th>
             <th className="px-6 py-3">Phase</th>
             <th className="px-6 py-3">Days Tracked</th>
+            <th className="px-6 py-3"></th>
           </tr>
         </thead>
         <tbody>
           {coins.map((coin) => (
-            <tr
-              key={coin.coin_id}
-              className="border-b hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
-            >
-              <td className="px-6 py-4 font-medium">{coin.rank}</td>
-              <td className="px-6 py-4">
-                {(() => {
-                  const velocity = typeof coin.base_velocity === 'string'
-                    ? parseFloat(coin.base_velocity)
-                    : coin.base_velocity;
-
-                  if (velocity === null || velocity === undefined || isNaN(velocity)) {
-                    return <span className="text-gray-400">N/A</span>;
-                  }
-
-                  const badge = getVelocityBadge(velocity);
-                  return (
-                    <div className="flex items-center gap-2">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${badge.color}`}>
-                        {badge.icon} {velocity.toFixed(2)}
-                      </span>
-                    </div>
-                  );
-                })()}
-              </td>
-              <td className="px-6 py-4">
-                <Link
-                  href={`/coin/${coin.coin_id}`}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                >
-                  <div className="font-bold">{coin.symbol.toUpperCase()}</div>
-                  <div className="text-xs text-gray-500">{coin.name}</div>
-                </Link>
-              </td>
-              <td className="px-6 py-4">{formatPrice(coin.price)}</td>
-              <td className="px-6 py-4">{formatNumber(coin.market_cap)}</td>
-              <td className="px-6 py-4">{formatNumber(coin.volume_24h)}</td>
-              <td className="px-6 py-4">
-                {(() => {
-                  const score = typeof coin.rr_score === 'string' ? parseFloat(coin.rr_score) : coin.rr_score;
-                  if (score === null || isNaN(score)) {
-                    return <span className="text-gray-400">N/A</span>;
-                  }
-                  return (
-                    <span className={`font-bold ${getScoreColor(score)}`}>
-                      {score.toFixed(2)}
-                    </span>
-                  );
-                })()}
-              </td>
-              <td className="px-6 py-4">
-                {coin.phase ? (
-                  <span className={`capitalize ${getPhaseColor(coin.phase)}`}>
-                    {coin.phase}
-                  </span>
-                ) : (
-                  <span className="text-gray-400">N/A</span>
-                )}
-              </td>
-              <td className="px-6 py-4">
-                {(() => {
-                  const days = typeof coin.days_tracking === 'string'
-                    ? parseInt(coin.days_tracking)
-                    : coin.days_tracking;
-
-                  if (days === null || days === undefined || isNaN(days)) {
-                    return <span className="text-gray-400">N/A</span>;
-                  }
-
-                  return <span>{days} {days === 1 ? 'day' : 'days'}</span>;
-                })()}
-              </td>
-            </tr>
+            <CoinRow key={coin.coin_id} coin={coin} />
           ))}
         </tbody>
       </table>
