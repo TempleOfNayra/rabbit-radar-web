@@ -100,65 +100,83 @@ export default function CoinRow({ coin }: CoinRowProps) {
       {expanded && (
         <tr className="bg-gray-50 dark:bg-gray-900">
           <td colSpan={10} className="px-6 py-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {/* Consistency Score */}
-              <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                <div className="text-xs text-gray-500 mb-1">Consistency Score</div>
-                <div className="text-lg font-bold">
-                  {coin.consistency_score !== null && !isNaN(parseFloat(String(coin.consistency_score)))
-                    ? `${parseFloat(String(coin.consistency_score)).toFixed(2)} / 10`
-                    : 'N/A'}
+            <div className="flex gap-4">
+              {/* Left side - Score components grid */}
+              <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4">
+                {/* Consistency Score */}
+                <div className="p-3 bg-white dark:bg-gray-800 rounded">
+                  <div className="text-xs text-gray-500 mb-1">Consistency Score</div>
+                  <div className="text-lg font-bold">
+                    {coin.consistency_score !== null && !isNaN(parseFloat(String(coin.consistency_score)))
+                      ? `${parseFloat(String(coin.consistency_score)).toFixed(2)} / 10`
+                      : 'N/A'}
+                  </div>
+                </div>
+
+                {/* Volume Score */}
+                <div className="p-3 bg-white dark:bg-gray-800 rounded">
+                  <div className="text-xs text-gray-500 mb-1">Volume Score</div>
+                  <div className="text-lg font-bold">
+                    {coin.volume_score !== null && !isNaN(parseFloat(String(coin.volume_score)))
+                      ? `${parseFloat(String(coin.volume_score)).toFixed(2)} / 10`
+                      : 'N/A'}
+                  </div>
+                </div>
+
+                {/* Persistence Score */}
+                <div className="p-3 bg-white dark:bg-gray-800 rounded">
+                  <div className="text-xs text-gray-500 mb-1">Persistence Score</div>
+                  <div className="text-lg font-bold">
+                    {coin.persistence_score !== null && !isNaN(parseFloat(String(coin.persistence_score)))
+                      ? `${parseFloat(String(coin.persistence_score)).toFixed(2)} / 10`
+                      : 'N/A'}
+                  </div>
+                </div>
+
+                {/* Red Flags Penalty */}
+                <div className="p-3 bg-white dark:bg-gray-800 rounded">
+                  <div className="text-xs text-gray-500 mb-1">Red Flags Penalty</div>
+                  <div className="text-lg font-bold text-red-600">
+                    {coin.red_flags_penalty !== null && !isNaN(parseFloat(String(coin.red_flags_penalty)))
+                      ? `-${parseFloat(String(coin.red_flags_penalty)).toFixed(2)} pts`
+                      : 'N/A'}
+                  </div>
+                </div>
+
+                {/* Base Velocity */}
+                <div className="p-3 bg-white dark:bg-gray-800 rounded">
+                  <div className="text-xs text-gray-500 mb-1">Base Velocity</div>
+                  <div className="text-lg font-bold">
+                    {coin.base_velocity !== null && !isNaN(parseFloat(String(coin.base_velocity)))
+                      ? `${parseFloat(String(coin.base_velocity)).toFixed(2)} ranks/day`
+                      : 'N/A'}
+                  </div>
+                </div>
+
+                {/* Market Context Multiplier */}
+                <div className="p-3 bg-white dark:bg-gray-800 rounded">
+                  <div className="text-xs text-gray-500 mb-1">Market Context</div>
+                  <div className="text-lg font-bold">
+                    {coin.market_context_multiplier !== null && !isNaN(parseFloat(String(coin.market_context_multiplier)))
+                      ? `${parseFloat(String(coin.market_context_multiplier)).toFixed(2)}x`
+                      : 'N/A'}
+                  </div>
                 </div>
               </div>
 
-              {/* Volume Score */}
-              <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                <div className="text-xs text-gray-500 mb-1">Volume Score</div>
-                <div className="text-lg font-bold">
-                  {coin.volume_score !== null && !isNaN(parseFloat(String(coin.volume_score)))
-                    ? `${parseFloat(String(coin.volume_score)).toFixed(2)} / 10`
-                    : 'N/A'}
+              {/* Right side - Big RR Score Box */}
+              <div className="w-48 p-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex flex-col items-center justify-center text-white">
+                <div className="text-sm font-medium mb-2">🐰 RabbitRadar Score</div>
+                <div className="text-5xl font-bold">
+                  {(() => {
+                    const score = typeof coin.rr_score === 'string' ? parseFloat(coin.rr_score) : coin.rr_score;
+                    if (score === null || isNaN(score)) {
+                      return 'N/A';
+                    }
+                    return score.toFixed(1);
+                  })()}
                 </div>
-              </div>
-
-              {/* Persistence Score */}
-              <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                <div className="text-xs text-gray-500 mb-1">Persistence Score</div>
-                <div className="text-lg font-bold">
-                  {coin.persistence_score !== null && !isNaN(parseFloat(String(coin.persistence_score)))
-                    ? `${parseFloat(String(coin.persistence_score)).toFixed(2)} / 10`
-                    : 'N/A'}
-                </div>
-              </div>
-
-              {/* Red Flags Penalty */}
-              <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                <div className="text-xs text-gray-500 mb-1">Red Flags Penalty</div>
-                <div className="text-lg font-bold text-red-600">
-                  {coin.red_flags_penalty !== null && !isNaN(parseFloat(String(coin.red_flags_penalty)))
-                    ? `-${parseFloat(String(coin.red_flags_penalty)).toFixed(2)} pts`
-                    : 'N/A'}
-                </div>
-              </div>
-
-              {/* Base Velocity */}
-              <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                <div className="text-xs text-gray-500 mb-1">Base Velocity</div>
-                <div className="text-lg font-bold">
-                  {coin.base_velocity !== null && !isNaN(parseFloat(String(coin.base_velocity)))
-                    ? `${parseFloat(String(coin.base_velocity)).toFixed(2)} ranks/day`
-                    : 'N/A'}
-                </div>
-              </div>
-
-              {/* Market Context Multiplier */}
-              <div className="p-3 bg-white dark:bg-gray-800 rounded">
-                <div className="text-xs text-gray-500 mb-1">Market Context</div>
-                <div className="text-lg font-bold">
-                  {coin.market_context_multiplier !== null && !isNaN(parseFloat(String(coin.market_context_multiplier)))
-                    ? `${parseFloat(String(coin.market_context_multiplier)).toFixed(2)}x`
-                    : 'N/A'}
-                </div>
+                <div className="text-xs mt-1 opacity-80">out of 100</div>
               </div>
             </div>
           </td>
