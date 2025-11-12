@@ -6,7 +6,7 @@
  * Format large numbers with abbreviations (K, M, B, T)
  */
 export function formatNumber(num: number | null): string {
-  if (num === null || num === undefined) return 'N/A';
+  if (num === null || num === undefined || typeof num !== 'number') return 'N/A';
 
   const absNum = Math.abs(num);
 
@@ -22,7 +22,7 @@ export function formatNumber(num: number | null): string {
  * Format price with appropriate decimal places
  */
 export function formatPrice(price: number | null): string {
-  if (price === null || price === undefined) return 'N/A';
+  if (price === null || price === undefined || typeof price !== 'number') return 'N/A';
 
   if (price < 0.01) return `$${price.toFixed(6)}`;
   if (price < 1) return `$${price.toFixed(4)}`;

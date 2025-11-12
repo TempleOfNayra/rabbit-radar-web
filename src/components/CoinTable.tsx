@@ -47,7 +47,7 @@ export default function CoinTable({ coins }: CoinTableProps) {
               <td className="px-6 py-4">{formatNumber(coin.market_cap)}</td>
               <td className="px-6 py-4">{formatNumber(coin.volume_24h)}</td>
               <td className="px-6 py-4">
-                {coin.rr_score !== null ? (
+                {coin.rr_score !== null && typeof coin.rr_score === 'number' ? (
                   <span className={`font-bold ${getScoreColor(coin.rr_score)}`}>
                     {coin.rr_score.toFixed(2)}
                   </span>
