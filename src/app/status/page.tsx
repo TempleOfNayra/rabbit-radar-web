@@ -220,7 +220,7 @@ export default async function StatusPage() {
                       <span className="text-white">{job.coinsWithMetadata}</span>
                     </div>
                   )}
-                  {job.btcDominance !== undefined && (
+                  {job.btcDominance !== undefined && job.btcDominance !== null && (
                     <div className="flex justify-between">
                       <span className="text-gray-400">BTC Dominance:</span>
                       <span className="text-white">{job.btcDominance.toFixed(2)}%</span>
