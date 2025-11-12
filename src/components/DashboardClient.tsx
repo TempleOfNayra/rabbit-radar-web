@@ -156,6 +156,8 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
               <option value={50}>50</option>
               <option value={100}>100</option>
               <option value={200}>200</option>
+              <option value={500}>500</option>
+              <option value={10000}>ALL</option>
             </select>
           </div>
         </div>

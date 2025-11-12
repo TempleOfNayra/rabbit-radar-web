@@ -20,7 +20,7 @@ export default function CoinRow({ coin }: CoinRowProps) {
   return (
     <>
       <tr
-        className="border-b-4 border-gray-950 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors cursor-pointer"
+        className={`${!expanded ? 'border-b-4 border-gray-950' : ''} hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors cursor-pointer`}
         onClick={() => setExpanded(!expanded)}
       >
         <td className="px-6 py-5 text-lg font-semibold">{coin.rank}</td>
