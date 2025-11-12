@@ -83,10 +83,31 @@ export interface ScoreHistory {
 
 export interface CoinDetailsResponse {
   success: boolean;
-  data: {
-    coin: CoinData;
-    rankHistory: CoinHistory[];
-    scoreHistory: ScoreHistory[];
+  coin: {
+    id: string;
+    symbol: string;
+    name: string;
+    currentRank: number;
+    currentPrice: number;
+    marketCap: number;
+    volume24h: number;
   };
+  score: {
+    rrScore: number;
+    consistencyScore: number;
+    volumeScore: number;
+    persistenceScore: number;
+    redFlagsPenalty: number;
+    baseVelocity: number;
+    phase: string;
+    daysTracking: number;
+  } | null;
+  history: {
+    rankings: CoinHistory[];
+    scores: ScoreHistory[];
+  };
+  metadata: Record<string, unknown> | null;
+  exchangeVolumes: Record<string, unknown> | null;
+  watchList: Record<string, unknown> | null;
   timestamp: string;
 }

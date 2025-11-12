@@ -17,7 +17,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
     coinData = await rabbitRadarAPI.getCoinDetails(id);
 
     // Validate response structure
-    if (!coinData || !coinData.data || !coinData.data.coin) {
+    if (!coinData || !coinData.coin) {
       error = 'Invalid API response structure';
       coinData = null;
     }
@@ -39,8 +39,10 @@ export default async function CoinDetailPage({ params }: PageProps) {
     );
   }
 
-  const { coin, rankHistory, scoreHistory } = coinData.data;
-  const velocityBadge = getVelocityBadge(coin.base_velocity || 0);
+  const { coin, score, history } = coinData;
+  const rankHistory = history.rankings;
+  const scoreHistory = history.scores;
+  const velocityBadge = getVelocityBadge(score?.baseVelocity || 0);
 
   // Prepare chart data
   const rankData = rankHistory.map((r) => r.rank);
@@ -71,25 +73,25 @@ export default async function CoinDetailPage({ params }: PageProps) {
               <span className="text-2xl">{velocityBadge.icon}</span>
             </div>
             <div className="flex items-center gap-4 text-sm text-gray-400">
-              <span>Rank #{coin.rank}</span>
+              <span>Rank #{coin.currentRank}</span>
               <span>•</span>
-              <span>Tracking: {coin.days_tracking} days</span>
+              <span>Tracking: {score?.daysTracking || 0} days</span>
               <span>•</span>
               <span className={`px-2 py-1 rounded ${
-                coin.phase === 'accumulation' ? 'bg-green-900/30 text-green-400' :
-                coin.phase === 'markup' ? 'bg-blue-900/30 text-blue-400' :
-                coin.phase === 'distribution' ? 'bg-yellow-900/30 text-yellow-400' :
+                score?.phase === 'accumulation' ? 'bg-green-900/30 text-green-400' :
+                score?.phase === 'markup' ? 'bg-blue-900/30 text-blue-400' :
+                score?.phase === 'distribution' ? 'bg-yellow-900/30 text-yellow-400' :
                 'bg-red-900/30 text-red-400'
               }`}>
-                {coin.phase?.toUpperCase()}
+                {score?.phase?.toUpperCase() || 'UNKNOWN'}
               </span>
             </div>
           </div>
 
           <div className="text-right">
-            <div className="text-3xl font-bold">{formatPrice(coin.price)}</div>
+            <div className="text-3xl font-bold">{formatPrice(coin.currentPrice)}</div>
             <div className="text-sm text-gray-400 mt-1">
-              Updated {formatRelativeTime(coin.timestamp)}
+              Updated {formatRelativeTime(coinData.timestamp)}
             </div>
           </div>
         </div>
@@ -98,15 +100,15 @@ export default async function CoinDetailPage({ params }: PageProps) {
         <div className="grid grid-cols-3 gap-4 mt-6">
           <div className="bg-gray-800 rounded-lg p-4">
             <div className="text-gray-400 text-sm">Market Cap</div>
-            <div className="text-xl font-semibold mt-1">${formatNumber(coin.market_cap)}</div>
+            <div className="text-xl font-semibold mt-1">${formatNumber(coin.marketCap)}</div>
           </div>
           <div className="bg-gray-800 rounded-lg p-4">
             <div className="text-gray-400 text-sm">24h Volume</div>
-            <div className="text-xl font-semibold mt-1">${formatNumber(coin.volume_24h)}</div>
+            <div className="text-xl font-semibold mt-1">${formatNumber(coin.volume24h)}</div>
           </div>
           <div className="bg-gray-800 rounded-lg p-4">
             <div className="text-gray-400 text-sm">Base Velocity</div>
-            <div className="text-xl font-semibold mt-1">{coin.base_velocity?.toFixed(4) || 'N/A'}</div>
+            <div className="text-xl font-semibold mt-1">{score?.baseVelocity?.toFixed(4) || 'N/A'}</div>
           </div>
         </div>
       </div>
@@ -115,51 +117,45 @@ export default async function CoinDetailPage({ params }: PageProps) {
       <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 rounded-lg p-6 mb-6 border border-blue-800/30">
         <div className="text-center">
           <div className="text-gray-300 text-sm uppercase tracking-wide mb-2">RabbitRadar Score</div>
-          <div className={`text-6xl font-bold ${getScoreColor(coin.rr_score || 0)}`}>
-            {coin.rr_score?.toFixed(2) || 'N/A'}
+          <div className={`text-6xl font-bold ${getScoreColor(score?.rrScore || 0)}`}>
+            {score?.rrScore?.toFixed(2) || 'N/A'}
           </div>
           <div className="text-gray-400 text-sm mt-2">
-            {(coin.rr_score ?? 0) >= 8 ? '🐰 Strong Rabbit Candidate' :
-             (coin.rr_score ?? 0) >= 6 ? '👀 Worth Watching' :
-             (coin.rr_score ?? 0) >= 4 ? '⚠️ Moderate Interest' :
+            {(score?.rrScore ?? 0) >= 8 ? '🐰 Strong Rabbit Candidate' :
+             (score?.rrScore ?? 0) >= 6 ? '👀 Worth Watching' :
+             (score?.rrScore ?? 0) >= 4 ? '⚠️ Moderate Interest' :
              '❌ Too Risky/Slow'}
           </div>
         </div>
 
         {/* Score Breakdown */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
           <div className="bg-gray-900/50 rounded-lg p-3 text-center">
             <div className="text-gray-400 text-xs">Consistency</div>
-            <div className={`text-2xl font-bold ${getScoreColor(coin.consistency_score || 0)}`}>
-              {coin.consistency_score?.toFixed(1) || 'N/A'}
+            <div className={`text-2xl font-bold ${getScoreColor(score?.consistencyScore || 0)}`}>
+              {score?.consistencyScore?.toFixed(1) || 'N/A'}
             </div>
           </div>
           <div className="bg-gray-900/50 rounded-lg p-3 text-center">
             <div className="text-gray-400 text-xs">Volume</div>
-            <div className={`text-2xl font-bold ${getScoreColor(coin.volume_score || 0)}`}>
-              {coin.volume_score?.toFixed(1) || 'N/A'}
+            <div className={`text-2xl font-bold ${getScoreColor(score?.volumeScore || 0)}`}>
+              {score?.volumeScore?.toFixed(1) || 'N/A'}
             </div>
           </div>
           <div className="bg-gray-900/50 rounded-lg p-3 text-center">
             <div className="text-gray-400 text-xs">Persistence</div>
-            <div className={`text-2xl font-bold ${getScoreColor(coin.persistence_score || 0)}`}>
-              {coin.persistence_score?.toFixed(1) || 'N/A'}
+            <div className={`text-2xl font-bold ${getScoreColor(score?.persistenceScore || 0)}`}>
+              {score?.persistenceScore?.toFixed(1) || 'N/A'}
             </div>
           </div>
           <div className="bg-gray-900/50 rounded-lg p-3 text-center">
             <div className="text-gray-400 text-xs">Red Flags</div>
             <div className={`text-2xl font-bold ${
-              (coin.red_flags_penalty ?? 1) < 0.3 ? 'text-green-400' :
-              (coin.red_flags_penalty ?? 1) < 0.5 ? 'text-yellow-400' :
+              (score?.redFlagsPenalty ?? 1) < 0.3 ? 'text-green-400' :
+              (score?.redFlagsPenalty ?? 1) < 0.5 ? 'text-yellow-400' :
               'text-red-400'
             }`}>
-              {coin.red_flags_penalty?.toFixed(1) || 'N/A'}
-            </div>
-          </div>
-          <div className="bg-gray-900/50 rounded-lg p-3 text-center">
-            <div className="text-gray-400 text-xs">Market Context</div>
-            <div className="text-2xl font-bold text-blue-400">
-              {coin.market_context_multiplier?.toFixed(2) || 'N/A'}
+              {score?.redFlagsPenalty?.toFixed(1) || 'N/A'}
             </div>
           </div>
         </div>
