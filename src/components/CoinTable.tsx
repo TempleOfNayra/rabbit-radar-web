@@ -90,11 +90,17 @@ export default function CoinTable({ coins }: CoinTableProps) {
                 )}
               </td>
               <td className="px-6 py-4">
-                {coin.days_tracking !== null ? (
-                  <span>{coin.days_tracking} days</span>
-                ) : (
-                  <span className="text-gray-400">N/A</span>
-                )}
+                {(() => {
+                  const days = typeof coin.days_tracking === 'string'
+                    ? parseInt(coin.days_tracking)
+                    : coin.days_tracking;
+
+                  if (days === null || days === undefined || isNaN(days)) {
+                    return <span className="text-gray-400">N/A</span>;
+                  }
+
+                  return <span>{days} {days === 1 ? 'day' : 'days'}</span>;
+                })()}
               </td>
             </tr>
           ))}
