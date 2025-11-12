@@ -27,6 +27,16 @@ interface StatusResponse {
       btcDominance?: number;
     };
   };
+  apiUsage?: {
+    status: 'healthy' | 'warning' | 'error';
+    callsToday: number;
+    callsThisMonth: number;
+    monthlyLimit: number;
+    usagePercent: string;
+    successfulCalls: number;
+    failedCalls: number;
+    callsByEndpoint: { endpoint: string; count: number }[];
+  };
   statistics: {
     rankings: {
       totalCoinsTracked: number;
@@ -205,6 +215,90 @@ export default async function StatusPage() {
             </div>
           </div>
         </div>
+
+        {/* API Usage */}
+        {status.apiUsage && (
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-white mb-4">CoinGecko API Usage</h2>
+            <div className={`p-6 rounded-lg border ${getStatusBadgeColor(status.apiUsage.status)}`}>
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className={`w-4 h-4 rounded-full ${getStatusColor(status.apiUsage.status)}`}></div>
+                  <div>
+                    <div className="font-semibold text-lg text-white">API Quota Monitor</div>
+                    <div className="text-sm text-gray-400">
+                      {status.apiUsage.callsThisMonth.toLocaleString()} / {status.apiUsage.monthlyLimit.toLocaleString()} calls this month
+                    </div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-3xl font-bold text-white">{status.apiUsage.usagePercent}%</div>
+                  <div className="text-xs text-gray-400">Quota Used</div>
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="mb-4">
+                <div className="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
+                  <div
+                    className={`h-full transition-all ${
+                      status.apiUsage.status === 'healthy' ? 'bg-green-500' :
+                      status.apiUsage.status === 'warning' ? 'bg-yellow-500' :
+                      'bg-red-500'
+                    }`}
+                    style={{ width: `${Math.min(parseFloat(status.apiUsage.usagePercent), 100)}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div>
+                  <div className="text-xs text-gray-400 mb-1">Today</div>
+                  <div className="text-xl font-semibold text-white">{status.apiUsage.callsToday.toLocaleString()}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400 mb-1">This Month</div>
+                  <div className="text-xl font-semibold text-white">{status.apiUsage.callsThisMonth.toLocaleString()}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400 mb-1">Successful</div>
+                  <div className="text-xl font-semibold text-green-400">{status.apiUsage.successfulCalls.toLocaleString()}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400 mb-1">Failed</div>
+                  <div className="text-xl font-semibold text-red-400">{status.apiUsage.failedCalls.toLocaleString()}</div>
+                </div>
+              </div>
+
+              {/* Top Endpoints */}
+              {status.apiUsage.callsByEndpoint.length > 0 && (
+                <div className="pt-4 border-t border-gray-700">
+                  <div className="text-xs text-gray-400 mb-2">Top API Endpoints:</div>
+                  <div className="space-y-1">
+                    {status.apiUsage.callsByEndpoint.map((endpoint, idx) => (
+                      <div key={idx} className="flex justify-between text-sm">
+                        <span className="text-gray-300 font-mono text-xs truncate">{endpoint.endpoint}</span>
+                        <span className="text-white ml-2">{endpoint.count.toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Status Message */}
+              <div className={`mt-4 pt-4 border-t border-gray-700 text-sm ${
+                status.apiUsage.status === 'healthy' ? 'text-green-400' :
+                status.apiUsage.status === 'warning' ? 'text-yellow-400' :
+                'text-red-400'
+              }`}>
+                {status.apiUsage.status === 'healthy' ? '✅ API usage is within healthy limits' :
+                 status.apiUsage.status === 'warning' ? '⚠️ Warning: Approaching monthly API limit' :
+                 '🚨 Critical: Near or exceeded monthly API limit'}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Cron Jobs */}
         <div className="mb-6">
