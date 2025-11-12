@@ -6,6 +6,7 @@
  */
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { CoinData } from '@/lib/types';
 import { formatNumber, formatPrice, getScoreColor, getPhaseColor, getVelocityBadge } from '@/lib/utils';
 
@@ -187,6 +188,20 @@ export default function CoinRow({ coin }: CoinRowProps) {
                 </div>
                 <div className="text-xs mt-1 opacity-80">out of 100</div>
               </div>
+            </div>
+
+            {/* View Details Button */}
+            <div className="mt-4 flex justify-center">
+              <Link
+                href={`/coin/${coin.coin_id}`}
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-lg"
+              >
+                View Full Details
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
             </div>
             </div>
           </div>
