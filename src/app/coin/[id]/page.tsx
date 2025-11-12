@@ -15,8 +15,15 @@ export default async function CoinDetailPage({ params }: PageProps) {
 
   try {
     coinData = await rabbitRadarAPI.getCoinDetails(id);
+
+    // Validate response structure
+    if (!coinData || !coinData.data || !coinData.data.coin) {
+      error = 'Invalid API response structure';
+      coinData = null;
+    }
   } catch (err) {
     error = err instanceof Error ? err.message : 'Failed to load coin data';
+    coinData = null;
   }
 
   if (error || !coinData) {

@@ -10,8 +10,14 @@ export default async function WatchlistPage() {
 
   try {
     watchlist = await rabbitRadarAPI.getWatchList();
+
+    // Ensure data is an array
+    if (!watchlist || !Array.isArray(watchlist.data)) {
+      watchlist = { data: [], count: 0, success: false, timestamp: new Date().toISOString() };
+    }
   } catch (err) {
     error = err instanceof Error ? err.message : 'Failed to load watchlist';
+    watchlist = { data: [], count: 0, success: false, timestamp: new Date().toISOString() };
   }
 
   const getStatusBadge = (status: string) => {
