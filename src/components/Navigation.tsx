@@ -7,7 +7,7 @@ export default function Navigation() {
   const pathname = usePathname();
 
   const navItems = [
-    { href: '/', label: 'Dashboard', icon: '📊' },
+    { href: '/dashboard', label: 'Dashboard', icon: '📊' },
     { href: '/watchlist', label: 'Watch List', icon: '👀' },
     { href: '/trophy-room', label: 'Trophy Room', icon: '🏆' },
     { href: '/how-it-works', label: 'How It Works', icon: '❓' },
