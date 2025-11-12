@@ -6,7 +6,6 @@
  */
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { CoinData } from '@/lib/types';
 import { formatNumber, formatPrice, getScoreColor, getPhaseColor, getVelocityBadge } from '@/lib/utils';
 
@@ -18,11 +17,17 @@ export default function CoinRow({ coin }: CoinRowProps) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <tr className={`border-b border-gray-800 ${expanded ? '' : ''}`}>
+    <tr className="border-b border-gray-800">
       <td colSpan={9} className="p-0">
         <div className="bg-gray-900/50">
-          {/* Main Row Content */}
-          <div className="grid grid-cols-9 gap-4 px-6 py-5 hover:bg-gray-800/50 transition-colors">
+          {/* Main Row Content - Clickable */}
+          <div
+            className="grid grid-cols-9 gap-4 px-6 py-5 hover:bg-gray-800/50 transition-colors cursor-pointer"
+            onClick={() => setExpanded(!expanded)}
+            style={{
+              gridTemplateColumns: '5% 8% 20% 12% 15% 15% 10% 10% 5%'
+            }}
+          >
             <div className="text-lg font-semibold">{coin.rank}</div>
 
             <div>
@@ -47,14 +52,8 @@ export default function CoinRow({ coin }: CoinRowProps) {
             </div>
 
             <div>
-              <Link
-                href={`/coin/${coin.coin_id}`}
-                className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="font-bold text-base">{coin.symbol.toUpperCase()}</div>
-                <div className="text-sm text-gray-500">{coin.name}</div>
-              </Link>
+              <div className="font-bold text-base">{coin.symbol.toUpperCase()}</div>
+              <div className="text-sm text-gray-500">{coin.name}</div>
             </div>
 
             <div className="text-base font-medium text-right">{formatPrice(coin.price)}</div>
@@ -99,23 +98,6 @@ export default function CoinRow({ coin }: CoinRowProps) {
               })()}
             </div>
           </div>
-
-          {/* Chevron Button */}
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="w-full py-2 flex items-center justify-center hover:bg-gray-800/30 transition-colors"
-          >
-            <svg
-              className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${
-                expanded ? 'rotate-180' : ''
-              }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
 
           {/* Expanded Details */}
           <div

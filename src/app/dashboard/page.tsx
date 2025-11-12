@@ -5,7 +5,6 @@
 import rabbitRadarAPI from '@/lib/api';
 import DashboardClient from '@/components/DashboardClient';
 import BtcDominanceCard from '@/components/BtcDominanceCard';
-import { formatRelativeTime } from '@/lib/utils';
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
