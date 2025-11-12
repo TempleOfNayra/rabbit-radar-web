@@ -22,10 +22,10 @@ export default function CoinRow({ coin }: CoinRowProps) {
         <div className="bg-gray-900/50">
           {/* Main Row Content - Clickable */}
           <div
-            className="grid grid-cols-9 gap-4 px-6 py-5 hover:bg-gray-800/50 transition-colors cursor-pointer"
+            className="grid grid-cols-9 gap-2 px-6 py-5 hover:bg-gray-800/50 transition-colors cursor-pointer"
             onClick={() => setExpanded(!expanded)}
             style={{
-              gridTemplateColumns: '5% 8% 20% 12% 15% 15% 10% 10% 5%'
+              gridTemplateColumns: '60px 110px 200px 130px 140px 140px 110px 100px 90px'
             }}
           >
             <div className="text-lg font-semibold">{coin.rank}</div>
@@ -42,8 +42,8 @@ export default function CoinRow({ coin }: CoinRowProps) {
 
                 const badge = getVelocityBadge(velocity);
                 return (
-                  <div className="flex items-center gap-2">
-                    <span className={`px-3 py-1.5 rounded text-sm font-semibold ${badge.color}`}>
+                  <div className="flex items-center">
+                    <span className={`px-2 py-1 rounded text-xs font-semibold ${badge.color} whitespace-nowrap`}>
                       {badge.icon} {velocity.toFixed(2)}
                     </span>
                   </div>
@@ -51,9 +51,9 @@ export default function CoinRow({ coin }: CoinRowProps) {
               })()}
             </div>
 
-            <div>
-              <div className="font-bold text-base">{coin.symbol.toUpperCase()}</div>
-              <div className="text-sm text-gray-500">{coin.name}</div>
+            <div className="overflow-hidden">
+              <div className="font-bold text-base truncate">{coin.symbol.toUpperCase()}</div>
+              <div className="text-sm text-gray-500 truncate">{coin.name}</div>
             </div>
 
             <div className="text-base font-medium text-right">{formatPrice(coin.price)}</div>

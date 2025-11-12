@@ -199,23 +199,23 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
           <div className="overflow-x-auto">
             <table className="w-full">
               <colgroup>
-                <col style={{ width: '5%', minWidth: '80px' }} /> {/* Rank */}
-                <col style={{ width: '8%', minWidth: '96px' }} /> {/* Velocity */}
-                <col style={{ width: '20%', minWidth: '192px' }} /> {/* Coin */}
-                <col style={{ width: '12%', minWidth: '128px' }} /> {/* Price */}
-                <col style={{ width: '15%', minWidth: '144px' }} /> {/* Market Cap */}
-                <col style={{ width: '15%', minWidth: '144px' }} /> {/* 24h Volume */}
-                <col style={{ width: '10%', minWidth: '112px' }} /> {/* RR Score */}
-                <col style={{ width: '10%', minWidth: '112px' }} /> {/* Phase */}
-                <col style={{ width: '5%', minWidth: '96px' }} /> {/* Days */}
+                <col style={{ width: '60px', minWidth: '60px' }} /> {/* Rank */}
+                <col style={{ width: '110px', minWidth: '110px' }} /> {/* Velocity */}
+                <col style={{ width: '200px', minWidth: '200px' }} /> {/* Coin */}
+                <col style={{ width: '130px', minWidth: '130px' }} /> {/* Price */}
+                <col style={{ width: '140px', minWidth: '140px' }} /> {/* Market Cap */}
+                <col style={{ width: '140px', minWidth: '140px' }} /> {/* 24h Volume */}
+                <col style={{ width: '110px', minWidth: '110px' }} /> {/* RR Score */}
+                <col style={{ width: '100px', minWidth: '100px' }} /> {/* Phase */}
+                <col style={{ width: '90px', minWidth: '90px' }} /> {/* Days */}
               </colgroup>
               <thead className="bg-gray-800 text-sm">
                 <tr>
                   <th colSpan={9} className="p-0">
                     <div
-                      className="grid grid-cols-9 gap-4 px-6 py-4"
+                      className="grid grid-cols-9 gap-2 px-6 py-4"
                       style={{
-                        gridTemplateColumns: '5% 8% 20% 12% 15% 15% 10% 10% 5%'
+                        gridTemplateColumns: '60px 110px 200px 130px 140px 140px 110px 100px 90px'
                       }}
                     >
                       <div
