@@ -47,13 +47,17 @@ export default function CoinTable({ coins }: CoinTableProps) {
               <td className="px-6 py-4">{formatNumber(coin.market_cap)}</td>
               <td className="px-6 py-4">{formatNumber(coin.volume_24h)}</td>
               <td className="px-6 py-4">
-                {coin.rr_score !== null && typeof coin.rr_score === 'number' ? (
-                  <span className={`font-bold ${getScoreColor(coin.rr_score)}`}>
-                    {coin.rr_score.toFixed(2)}
-                  </span>
-                ) : (
-                  <span className="text-gray-400">N/A</span>
-                )}
+                {(() => {
+                  const score = typeof coin.rr_score === 'string' ? parseFloat(coin.rr_score) : coin.rr_score;
+                  if (score === null || isNaN(score)) {
+                    return <span className="text-gray-400">N/A</span>;
+                  }
+                  return (
+                    <span className={`font-bold ${getScoreColor(score)}`}>
+                      {score.toFixed(2)}
+                    </span>
+                  );
+                })()}
               </td>
               <td className="px-6 py-4">
                 {coin.phase ? (

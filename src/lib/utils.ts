@@ -5,30 +5,38 @@
 /**
  * Format large numbers with abbreviations (K, M, B, T)
  */
-export function formatNumber(num: number | null): string {
-  if (num === null || num === undefined || typeof num !== 'number') return 'N/A';
+export function formatNumber(num: number | string | null): string {
+  if (num === null || num === undefined) return 'N/A';
 
-  const absNum = Math.abs(num);
+  // Parse string to number
+  const parsed = typeof num === 'string' ? parseFloat(num) : num;
+  if (isNaN(parsed)) return 'N/A';
 
-  if (absNum >= 1e12) return `$${(num / 1e12).toFixed(2)}T`;
-  if (absNum >= 1e9) return `$${(num / 1e9).toFixed(2)}B`;
-  if (absNum >= 1e6) return `$${(num / 1e6).toFixed(2)}M`;
-  if (absNum >= 1e3) return `$${(num / 1e3).toFixed(2)}K`;
+  const absNum = Math.abs(parsed);
 
-  return `$${num.toFixed(2)}`;
+  if (absNum >= 1e12) return `$${(parsed / 1e12).toFixed(2)}T`;
+  if (absNum >= 1e9) return `$${(parsed / 1e9).toFixed(2)}B`;
+  if (absNum >= 1e6) return `$${(parsed / 1e6).toFixed(2)}M`;
+  if (absNum >= 1e3) return `$${(parsed / 1e3).toFixed(2)}K`;
+
+  return `$${parsed.toFixed(2)}`;
 }
 
 /**
  * Format price with appropriate decimal places
  */
-export function formatPrice(price: number | null): string {
-  if (price === null || price === undefined || typeof price !== 'number') return 'N/A';
+export function formatPrice(price: number | string | null): string {
+  if (price === null || price === undefined) return 'N/A';
 
-  if (price < 0.01) return `$${price.toFixed(6)}`;
-  if (price < 1) return `$${price.toFixed(4)}`;
-  if (price < 100) return `$${price.toFixed(2)}`;
+  // Parse string to number
+  const parsed = typeof price === 'string' ? parseFloat(price) : price;
+  if (isNaN(parsed)) return 'N/A';
 
-  return `$${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  if (parsed < 0.01) return `$${parsed.toFixed(6)}`;
+  if (parsed < 1) return `$${parsed.toFixed(4)}`;
+  if (parsed < 100) return `$${parsed.toFixed(2)}`;
+
+  return `$${parsed.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 /**
