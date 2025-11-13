@@ -157,6 +157,128 @@ export default async function CoinDetailPage({ params }: PageProps) {
         </div>
       </div>
 
+      {/* Ranking Velocity Breakdown - NEW VISUAL SECTION */}
+      <div className="bg-gradient-to-br from-purple-900/40 to-blue-900/40 rounded-lg p-6 mb-6 border border-purple-700/50">
+        <h2 className="text-2xl font-bold mb-6 text-center text-white">
+          📊 Ranking Velocity Breakdown
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Left: Visual Movement */}
+          <div className="bg-gray-900/50 rounded-lg p-6">
+            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-4 text-center">
+              Ranking Movement
+            </h3>
+
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="text-center">
+                <div className="text-xs text-gray-500 mb-1">Started</div>
+                <div className="text-4xl font-black text-red-400">
+                  #{rankHistory.length > 0 ? rankHistory[0].rank : coin.currentRank}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {rankHistory.length > 0 ? new Date(rankHistory[0].timestamp).toLocaleDateString() : 'N/A'}
+                </div>
+              </div>
+
+              <div className="text-5xl text-blue-400">→</div>
+
+              <div className="text-center">
+                <div className="text-xs text-gray-500 mb-1">Current</div>
+                <div className="text-4xl font-black text-green-400">
+                  #{coin.currentRank}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">Today</div>
+              </div>
+            </div>
+
+            <div className="text-center p-4 bg-blue-900/20 rounded-lg border border-blue-800/30">
+              <div className="text-xs text-gray-400 mb-1">Total Movement</div>
+              <div className="text-3xl font-bold text-green-400">
+                {rankHistory.length > 0
+                  ? `${rankHistory[0].rank > coin.currentRank ? '+' : ''}${rankHistory[0].rank - coin.currentRank} ranks`
+                  : 'N/A'}
+              </div>
+              <div className="text-xs text-gray-500 mt-1">
+                in {score?.daysTracking || rankHistory.length} days
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Velocity Calculation */}
+          <div className="bg-gray-900/50 rounded-lg p-6">
+            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-4 text-center">
+              Velocity Calculation
+            </h3>
+
+            <div className="space-y-3 mb-4">
+              <div className="p-3 bg-gray-800/50 rounded-lg">
+                <div className="text-xs text-gray-500 mb-1">Starting Rank</div>
+                <div className="text-2xl font-bold text-gray-300">
+                  {rankHistory.length > 0 ? rankHistory[0].rank : 'N/A'}
+                </div>
+              </div>
+
+              <div className="text-center text-gray-400">−</div>
+
+              <div className="p-3 bg-gray-800/50 rounded-lg">
+                <div className="text-xs text-gray-500 mb-1">Current Rank</div>
+                <div className="text-2xl font-bold text-gray-300">
+                  {coin.currentRank}
+                </div>
+              </div>
+
+              <div className="text-center text-gray-400">÷</div>
+
+              <div className="p-3 bg-gray-800/50 rounded-lg">
+                <div className="text-xs text-gray-500 mb-1">Days Tracked</div>
+                <div className="text-2xl font-bold text-gray-300">
+                  {score?.daysTracking || rankHistory.length} days
+                </div>
+              </div>
+
+              <div className="text-center text-gray-400">=</div>
+
+              <div className="p-4 bg-gradient-to-r from-green-900/40 to-blue-900/40 rounded-lg border border-green-700/50">
+                <div className="text-xs text-gray-400 mb-1 text-center">Ranking Velocity</div>
+                <div className="text-4xl font-black text-center">
+                  <span className={`${velocityBadge.color.replace('bg-', 'text-').replace('/70', '')}`}>
+                    {score?.baseVelocity !== null && score?.baseVelocity !== undefined
+                      ? score.baseVelocity.toFixed(2)
+                      : 'N/A'}
+                  </span>
+                </div>
+                <div className="text-sm text-gray-400 text-center mt-1">ranks/day</div>
+              </div>
+            </div>
+
+            <div className="p-3 bg-blue-900/20 rounded-lg border border-blue-800/30">
+              <p className="text-xs text-gray-300">
+                <strong>What this means:</strong> {velocityInterp.desc.replace('ranks/day)', `ranks/day = ${rankHistory.length > 0
+                  ? `moving from #${rankHistory[0].rank} to #${coin.currentRank}`
+                  : 'position change'} in ${score?.daysTracking || rankHistory.length} days)`)}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Interpretation Row */}
+        <div className={`mt-6 p-4 rounded-lg border-2 ${
+          velocityInterp.color === 'text-green-400' ? 'bg-green-900/20 border-green-700' :
+          velocityInterp.color === 'text-blue-400' ? 'bg-blue-900/20 border-blue-700' :
+          velocityInterp.color === 'text-yellow-400' ? 'bg-yellow-900/20 border-yellow-700' :
+          'bg-red-900/20 border-red-700'
+        }`}>
+          <div className="flex items-center gap-3">
+            <span className="text-4xl">{velocityInterp.emoji}</span>
+            <div>
+              <div className={`text-xl font-bold ${velocityInterp.color}`}>{velocityInterp.label}</div>
+              <p className="text-sm text-gray-300 mt-1">{velocityInterp.desc}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* RabbitRadar Score */}
       <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 rounded-lg p-6 mb-6 border border-blue-800/30">
         <div className="text-center">
