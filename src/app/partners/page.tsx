@@ -97,12 +97,12 @@ function PartnersSection() {
       <section className="mb-12">
         <h3 className="text-2xl font-semibold text-blue-400 mb-4">The Missed Opportunity Problem</h3>
         <p className="text-gray-300 text-lg mb-4">
-          By the time everyone knows about a cryptocurrency opportunity, it's already too late. The massive gains happen before the coin appears on most people's radar.
+          By the time everyone knows about a cryptocurrency opportunity, it&rsquo;s already too late. The massive gains happen before the coin appears on most people&rsquo;s radar.
         </p>
         <div className="bg-gradient-to-r from-red-900/30 to-orange-900/30 border border-red-800/50 rounded-lg p-6 my-6">
           <p className="text-xl font-semibold text-orange-300 mb-2">Real Example:</p>
           <p className="text-gray-300">
-            A coin climbs from rank #500 to #100 over 3 weeks. During this time, most traders don't notice—they're watching price charts.
+            A coin climbs from rank #500 to #100 over 3 weeks. During this time, most traders don&rsquo;t notice—they&rsquo;re watching price charts.
             By the time it hits major news sites and price explodes, the easy 5-10x gains are over.
           </p>
         </div>
@@ -131,7 +131,7 @@ function PartnersSection() {
               <li>• Tracks <strong>ranking position</strong> changes</li>
               <li>• Measures <strong>velocity</strong> (ranks/day)</li>
               <li>• Identifies momentum before price moves</li>
-              <li>• Catches "rabbits" early</li>
+              <li>• Catches &ldquo;rabbits&rdquo; early</li>
             </ul>
           </div>
         </div>
@@ -156,7 +156,7 @@ function PartnersSection() {
         <h3 className="text-2xl font-semibold text-blue-400 mb-4">The RabbitRadar Score: Not Just Speed</h3>
 
         <p className="text-gray-300 text-lg mb-6">
-          We don't just track velocity. We analyze the <strong className="text-white">quality of movement</strong> to filter out manipulation and identify genuine opportunities.
+          We don&rsquo;t just track velocity. We analyze the <strong className="text-white">quality of movement</strong> to filter out manipulation and identify genuine opportunities.
         </p>
 
         <div className="space-y-6">
@@ -228,7 +228,7 @@ function PartnersSection() {
               <div className="flex-1">
                 <h4 className="text-xl font-semibold text-yellow-400 mb-2">Persistence Score (0-10)</h4>
                 <p className="text-gray-300 mb-3">
-                  Measures ability to maintain ranking improvements over time. True "rabbits" hold their gains.
+                  Measures ability to maintain ranking improvements over time. True &ldquo;rabbits&rdquo; hold their gains.
                 </p>
                 <div className="grid md:grid-cols-2 gap-4 mt-4">
                   <div className="bg-green-900/20 border border-green-800/50 rounded p-3">
@@ -367,7 +367,7 @@ function PartnersSection() {
           <div className="bg-gray-800 rounded-lg p-6">
             <h4 className="text-lg font-semibold text-blue-300 mb-3">🔍 Multi-Factor Validation</h4>
             <p className="text-gray-300">
-              Every coin must pass multiple independent checks. A high velocity score alone isn't enough—we require strong consistency, clean volume patterns, and proven persistence.
+              Every coin must pass multiple independent checks. A high velocity score alone isn&rsquo;t enough—we require strong consistency, clean volume patterns, and proven persistence.
             </p>
           </div>
 
@@ -943,7 +943,7 @@ function InvestorsSection() {
 
         <div className="bg-gray-800 rounded-lg p-6 mb-6">
           <p className="text-gray-300 text-lg mb-6">
-            In crypto markets, timing is everything. By the time retail investors hear about an opportunity, institutional players and insiders have already positioned themselves. The massive gains happen before the coin appears on most people's radar.
+            In crypto markets, timing is everything. By the time retail investors hear about an opportunity, institutional players and insiders have already positioned themselves. The massive gains happen before the coin appears on most people&rsquo;s radar.
           </p>
 
           <div className="space-y-4">
@@ -964,7 +964,7 @@ function InvestorsSection() {
             <div className="bg-red-900/20 border-l-4 border-red-500 p-4">
               <h4 className="font-semibold text-red-300 mb-2">Existing tools are backward-looking</h4>
               <p className="text-sm text-gray-400">
-                Price charts, trading volume, social sentiment—all lagging indicators. You're reacting to what smart money already knows.
+                Price charts, trading volume, social sentiment—all lagging indicators. You&rsquo;re reacting to what smart money already knows.
               </p>
             </div>
           </div>
@@ -989,7 +989,7 @@ function InvestorsSection() {
           <h4 className="text-xl font-bold text-blue-300 mb-4">The First Ranking Velocity Intelligence Platform</h4>
 
           <p className="text-gray-300 text-lg mb-6">
-            RabbitRadar identifies coins climbing through rankings with sustained, organic momentum—catching "rabbits" before they hop into mainstream awareness.
+            RabbitRadar identifies coins climbing through rankings with sustained, organic momentum—catching &ldquo;rabbits&rdquo; before they hop into mainstream awareness.
           </p>
 
           <div className="grid md:grid-cols-3 gap-6 mb-6">
@@ -1249,8 +1249,8 @@ function InvestorsSection() {
           <div className="bg-gray-800 rounded-lg p-6">
             <h4 className="text-lg font-semibold text-blue-400 mb-3">Phase 2: Scale & Monetize (Months 6-18)</h4>
             <ul className="space-y-2 text-gray-300 text-sm">
-              <li>• <strong className="text-white">Paid Acquisition:</strong> Google/FB ads targeting "crypto signals" "trading tools" keywords</li>
-              <li>• <strong className="text-white">SEO Domination:</strong> Content around every tracked coin ("Is [COIN] a rabbit?")</li>
+              <li>• <strong className="text-white">Paid Acquisition:</strong> Google/FB ads targeting &ldquo;crypto signals&rdquo; &ldquo;trading tools&rdquo; keywords</li>
+              <li>• <strong className="text-white">SEO Domination:</strong> Content around every tracked coin (&ldquo;Is [COIN] a rabbit?&rdquo;)</li>
               <li>• <strong className="text-white">API Launch:</strong> Target quant funds, algo traders, institutional players</li>
               <li>• <strong className="text-white">Partnership Program:</strong> Revenue share with exchanges, listing intelligence deals</li>
               <li>• <strong className="text-white">Target:</strong> 100,000 users, $5M+ ARR, Series A fundraise</li>
@@ -1281,21 +1281,21 @@ function InvestorsSection() {
               <div className="bg-gray-800 rounded p-4">
                 <h5 className="font-semibold text-green-400 mb-2">🥇 First Mover</h5>
                 <p className="text-sm text-gray-300">
-                  Zero competitors tracking ranking velocity as primary signal. We're creating a new category.
+                  Zero competitors tracking ranking velocity as primary signal. We&rsquo;re creating a new category.
                 </p>
               </div>
 
               <div className="bg-gray-800 rounded p-4">
                 <h5 className="font-semibold text-blue-400 mb-2">📊 Data Accumulation</h5>
                 <p className="text-sm text-gray-300">
-                  Every day of historical patterns makes our detection better. Late entrants can't catch up—data compounds.
+                  Every day of historical patterns makes our detection better. Late entrants can&rsquo;t catch up—data compounds.
                 </p>
               </div>
 
               <div className="bg-gray-800 rounded p-4">
                 <h5 className="font-semibold text-purple-400 mb-2">🛡️ Methodology Complexity</h5>
                 <p className="text-sm text-gray-300">
-                  Multi-factor scoring is hard to replicate correctly. Most will get it wrong. We've refined over months of iteration.
+                  Multi-factor scoring is hard to replicate correctly. Most will get it wrong. We&rsquo;ve refined over months of iteration.
                 </p>
               </div>
             </div>
@@ -1311,7 +1311,7 @@ function InvestorsSection() {
               <div className="bg-gray-800 rounded p-4">
                 <h5 className="font-semibold text-pink-400 mb-2">🎯 Positioning</h5>
                 <p className="text-sm text-gray-300">
-                  "Spot rabbits before they hop" is memorable, viral, and captures imagination. Brand is defensible.
+                  &ldquo;Spot rabbits before they hop&rdquo; is memorable, viral, and captures imagination. Brand is defensible.
                 </p>
               </div>
 
@@ -1373,7 +1373,7 @@ function InvestorsSection() {
         <h3 className="text-2xl font-semibold text-green-400 mb-4">📊 Traction & Milestones</h3>
 
         <div className="bg-gray-800 rounded-lg p-6 mb-6">
-          <h4 className="text-lg font-semibold text-blue-400 mb-4">What We've Built:</h4>
+          <h4 className="text-lg font-semibold text-blue-400 mb-4">What We&rsquo;ve Built:</h4>
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <div className="bg-green-900/20 border border-green-800/50 rounded p-4 mb-3">
@@ -1575,7 +1575,7 @@ function InvestorsSection() {
 
           <p className="text-gray-300 text-lg mb-6">
             RabbitRadar becomes the <strong className="text-white">de-facto ranking intelligence layer</strong> for cryptocurrency markets.
-            When traders want to know "what's moving before everyone else knows," they come to RabbitRadar.
+            When traders want to know &ldquo;what&rsquo;s moving before everyone else knows,&rdquo; they come to RabbitRadar.
           </p>
 
           <div className="space-y-4 mb-6">
@@ -1605,10 +1605,10 @@ function InvestorsSection() {
           <div className="border-t border-purple-700/50 pt-6">
             <p className="text-gray-300 text-lg">
               <strong className="text-white">The Opportunity:</strong> Information asymmetry drives crypto markets.
-              We're building the tool that levels the playing field—giving retail traders the same early-detection edge that insiders have always had.
+              We&rsquo;re building the tool that levels the playing field—giving retail traders the same early-detection edge that insiders have always had.
             </p>
             <p className="text-gray-300 text-lg mt-4">
-              <strong className="text-white">Join us</strong> in democratizing access to alpha. Let's spot the rabbits together.
+              <strong className="text-white">Join us</strong> in democratizing access to alpha. Let&rsquo;s spot the rabbits together.
             </p>
           </div>
         </div>
