@@ -30,7 +30,7 @@ export default function Error({
             Try Again
           </button>
           <Link
-            href="/"
+            href="/dashboard"
             className="inline-block bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
           >
             Return to Dashboard

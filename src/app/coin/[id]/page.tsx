@@ -31,7 +31,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-red-900/20 border border-red-800 rounded-lg p-6 text-center">
           <p className="text-red-400 text-lg">{error || 'Coin not found'}</p>
-          <Link href="/" className="text-blue-400 hover:underline mt-4 inline-block">
+          <Link href="/dashboard" className="text-blue-400 hover:underline mt-4 inline-block">
             ← Back to Dashboard
           </Link>
         </div>
@@ -103,7 +103,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Back Button */}
-      <Link href="/" className="text-blue-400 hover:underline mb-4 inline-block">
+      <Link href="/dashboard" className="text-blue-400 hover:underline mb-4 inline-block">
         ← Back to Dashboard
       </Link>
 
@@ -144,11 +144,11 @@ export default async function CoinDetailPage({ params }: PageProps) {
         <div className="grid grid-cols-3 gap-4 mt-6">
           <div className="bg-gray-800 rounded-lg p-4">
             <div className="text-gray-400 text-sm">Market Cap</div>
-            <div className="text-xl font-semibold mt-1">${formatNumber(coin.marketCap)}</div>
+            <div className="text-xl font-semibold mt-1">{formatNumber(coin.marketCap)}</div>
           </div>
           <div className="bg-gray-800 rounded-lg p-4">
             <div className="text-gray-400 text-sm">24h Volume</div>
-            <div className="text-xl font-semibold mt-1">${formatNumber(coin.volume24h)}</div>
+            <div className="text-xl font-semibold mt-1">{formatNumber(coin.volume24h)}</div>
           </div>
           <div className="bg-gray-800 rounded-lg p-4">
             <div className="text-gray-400 text-sm">Base Velocity</div>
