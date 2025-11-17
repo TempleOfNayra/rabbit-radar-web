@@ -18,6 +18,7 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
   const [minScore, setMinScore] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(50);
+  const [selectedWindow, setSelectedWindow] = useState<3 | 7 | 14 | 30>(14);
 
   // Filter and sort coins
   const filteredAndSortedCoins = useMemo(() => {
@@ -126,6 +127,32 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
     <div>
       {/* Filters and Search */}
       <div className="bg-gray-900 rounded-lg p-4 mb-6">
+        {/* Window Selector - Prominent */}
+        <div className="mb-4 pb-4 border-b border-gray-800">
+          <label className="block text-sm text-gray-400 mb-3">📊 Time Window</label>
+          <div className="flex gap-2">
+            {([3, 7, 14, 30] as const).map((window) => (
+              <button
+                key={window}
+                onClick={() => {
+                  setSelectedWindow(window);
+                  setCurrentPage(1);
+                }}
+                className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
+                  selectedWindow === window
+                    ? 'bg-blue-600 text-white shadow-lg scale-105'
+                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
+                }`}
+              >
+                {window}d
+              </button>
+            ))}
+          </div>
+          <p className="text-xs text-gray-500 mt-2">
+            Showing R2 scores calculated over the last {selectedWindow} days
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Search */}
           <div className="md:col-span-2">

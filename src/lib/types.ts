@@ -10,6 +10,8 @@ export interface CoinData {
   market_cap: number;
   volume_24h: number;
   price: number;
+
+  // Default scores (14-day for backward compatibility)
   rr_score: number | null;
   consistency_score: number | null;
   volume_score: number | null;
@@ -20,6 +22,19 @@ export interface CoinData {
   phase: string | null;
   market_context_multiplier: number | null;
   timestamp: string;
+
+  // Multi-window scores (optional)
+  rr_score_14d?: number | null;
+  velocity_14d?: number | null;
+  velocity_3d?: number | null;
+  velocity_7d?: number | null;
+  velocity_30d?: number | null;
+  consistency_14d?: number | null;
+  volume_14d?: number | null;
+  persistence_14d?: number | null;
+  red_flags_14d?: number | null;
+  phase_14d?: string | null;
+  watch_status?: string | null;
 }
 
 export interface DashboardResponse {

@@ -22,6 +22,9 @@ class RabbitRadarAPI {
     minScore?: number;
     limit?: number;
     offset?: number;
+    window?: number;
+    sortBy?: 'velocity' | 'score';
+    multiWindow?: boolean;
   }): Promise<DashboardResponse> {
     const queryParams = new URLSearchParams();
 
@@ -30,6 +33,9 @@ class RabbitRadarAPI {
     if (params?.minScore) queryParams.append('minScore', params.minScore.toString());
     if (params?.limit) queryParams.append('limit', params.limit.toString());
     if (params?.offset) queryParams.append('offset', params.offset.toString());
+    if (params?.window) queryParams.append('window', params.window.toString());
+    if (params?.sortBy) queryParams.append('sortBy', params.sortBy);
+    if (params?.multiWindow !== undefined) queryParams.append('multiWindow', params.multiWindow.toString());
 
     const url = `${this.baseURL}/api/dashboard${queryParams.toString() ? `?${queryParams}` : ''}`;
 
