@@ -26,31 +26,10 @@ export default function CoinRow({ coin }: CoinRowProps) {
             className="grid grid-cols-9 gap-2 px-6 py-5 hover:bg-gray-800/50 transition-colors cursor-pointer"
             onClick={() => setExpanded(!expanded)}
             style={{
-              gridTemplateColumns: '60px 110px 200px 130px 140px 140px 110px 100px 90px'
+              gridTemplateColumns: '60px 200px 130px 140px 140px 110px 110px 100px 90px'
             }}
           >
             <div className="text-lg font-semibold">{coin.rank}</div>
-
-            <div>
-              {(() => {
-                const velocity = typeof coin.base_velocity === 'string'
-                  ? parseFloat(coin.base_velocity)
-                  : coin.base_velocity;
-
-                if (velocity === null || velocity === undefined || isNaN(velocity)) {
-                  return <span className="text-gray-400 text-base">N/A</span>;
-                }
-
-                const badge = getVelocityBadge(velocity);
-                return (
-                  <div className="flex items-center">
-                    <span className={`px-2 py-1 rounded text-xs font-semibold ${badge.color} whitespace-nowrap`}>
-                      {badge.icon} {velocity.toFixed(2)}
-                    </span>
-                  </div>
-                );
-              })()}
-            </div>
 
             <div className="overflow-hidden">
               <div className="font-bold text-base truncate">{coin.symbol.toUpperCase()}</div>
@@ -71,6 +50,27 @@ export default function CoinRow({ coin }: CoinRowProps) {
                   <span className={`font-bold text-lg ${getScoreColor(score)}`}>
                     {score.toFixed(2)}
                   </span>
+                );
+              })()}
+            </div>
+
+            <div className="text-right">
+              {(() => {
+                const velocity = typeof coin.base_velocity === 'string'
+                  ? parseFloat(coin.base_velocity)
+                  : coin.base_velocity;
+
+                if (velocity === null || velocity === undefined || isNaN(velocity)) {
+                  return <span className="text-gray-400 text-base">N/A</span>;
+                }
+
+                const badge = getVelocityBadge(velocity);
+                return (
+                  <div className="flex items-center justify-end">
+                    <span className={`px-2 py-1 rounded text-xs font-semibold ${badge.color} whitespace-nowrap`}>
+                      {badge.icon} {velocity.toFixed(2)}
+                    </span>
+                  </div>
                 );
               })()}
             </div>

@@ -227,12 +227,12 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
             <table className="w-full">
               <colgroup>
                 <col style={{ width: '60px', minWidth: '60px' }} /> {/* Rank */}
-                <col style={{ width: '110px', minWidth: '110px' }} /> {/* Velocity */}
                 <col style={{ width: '200px', minWidth: '200px' }} /> {/* Coin */}
                 <col style={{ width: '130px', minWidth: '130px' }} /> {/* Price */}
                 <col style={{ width: '140px', minWidth: '140px' }} /> {/* Market Cap */}
                 <col style={{ width: '140px', minWidth: '140px' }} /> {/* 24h Volume */}
                 <col style={{ width: '110px', minWidth: '110px' }} /> {/* RR Score */}
+                <col style={{ width: '110px', minWidth: '110px' }} /> {/* Velocity */}
                 <col style={{ width: '100px', minWidth: '100px' }} /> {/* Phase */}
                 <col style={{ width: '90px', minWidth: '90px' }} /> {/* Days */}
               </colgroup>
@@ -242,7 +242,7 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
                     <div
                       className="grid grid-cols-9 gap-2 px-6 py-4"
                       style={{
-                        gridTemplateColumns: '60px 110px 200px 130px 140px 140px 110px 100px 90px'
+                        gridTemplateColumns: '60px 200px 130px 140px 140px 110px 110px 100px 90px'
                       }}
                     >
                       <div
@@ -252,15 +252,6 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
                         <div className="flex items-center">
                           Rank
                           {getSortIcon('rank')}
-                        </div>
-                      </div>
-                      <div
-                        onClick={() => handleSort('base_velocity')}
-                        className="text-left font-semibold cursor-pointer hover:text-blue-400 transition-colors select-none"
-                      >
-                        <div className="flex items-center">
-                          Velocity
-                          {getSortIcon('base_velocity')}
                         </div>
                       </div>
                       <div className="text-left font-semibold">Coin</div>
@@ -298,6 +289,15 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
                         <div className="flex items-center justify-end">
                           RR Score
                           {getSortIcon('rr_score')}
+                        </div>
+                      </div>
+                      <div
+                        onClick={() => handleSort('base_velocity')}
+                        className="text-right font-semibold cursor-pointer hover:text-blue-400 transition-colors select-none"
+                      >
+                        <div className="flex items-center justify-end">
+                          Velocity
+                          {getSortIcon('base_velocity')}
                         </div>
                       </div>
                       <div className="text-right font-semibold">Phase</div>
