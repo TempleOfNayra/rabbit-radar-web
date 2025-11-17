@@ -254,7 +254,15 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
                           {getSortIcon('rank')}
                         </div>
                       </div>
-                      <div className="text-left font-semibold">Velocity</div>
+                      <div
+                        onClick={() => handleSort('base_velocity')}
+                        className="text-left font-semibold cursor-pointer hover:text-blue-400 transition-colors select-none"
+                      >
+                        <div className="flex items-center">
+                          Velocity
+                          {getSortIcon('base_velocity')}
+                        </div>
+                      </div>
                       <div className="text-left font-semibold">Coin</div>
                       <div
                         onClick={() => handleSort('price')}
