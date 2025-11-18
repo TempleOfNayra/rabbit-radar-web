@@ -31,10 +31,22 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://rabbit-radar-api.vercel.app';
       const response = await fetch(`${apiUrl}/api/dashboard?window=${window}&minRank=1&maxRank=1000`);
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
       const data = await response.json();
-      setCoins(data.data);
+
+      if (data.success && data.data && Array.isArray(data.data)) {
+        setCoins(data.data);
+      } else {
+        console.error('Invalid API response:', data);
+        throw new Error('Invalid API response format');
+      }
     } catch (error) {
       console.error('Failed to fetch data:', error);
+      alert('Failed to load data. Please try again.');
     } finally {
       setIsLoading(false);
     }
