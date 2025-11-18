@@ -20,9 +20,25 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
   const [itemsPerPage, setItemsPerPage] = useState(50);
   const [selectedWindow, setSelectedWindow] = useState<3 | 7 | 14 | 30>(14);
 
+  // Map window-specific fields to base fields
+  const coinsWithMappedFields = useMemo(() => {
+    return initialCoins.map((coin: any) => ({
+      ...coin,
+      rr_score: parseFloat(coin[`rr_score_${selectedWindow}d`] || '0') || null,
+      base_velocity: parseFloat(coin[`velocity_${selectedWindow}d`] || '0') || null,
+      consistency_score: parseFloat(coin[`consistency_${selectedWindow}d`] || '0') || null,
+      volume_score: parseFloat(coin[`volume_${selectedWindow}d`] || '0') || null,
+      persistence_score: parseFloat(coin[`persistence_${selectedWindow}d`] || '0') || null,
+      red_flags_penalty: parseFloat(coin[`red_flags_${selectedWindow}d`] || '0') || null,
+      phase: coin[`phase_${selectedWindow}d`] || null,
+      days_tracking: coin.days_tracking || null,
+      market_context_multiplier: coin.market_context_multiplier || null,
+    }));
+  }, [initialCoins, selectedWindow]);
+
   // Filter and sort coins
   const filteredAndSortedCoins = useMemo(() => {
-    let result = [...initialCoins];
+    let result = [...coinsWithMappedFields];
 
     // Search filter
     if (search) {
