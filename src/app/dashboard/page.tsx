@@ -7,9 +7,10 @@
 import { useEffect, useState } from 'react';
 import DashboardClient from '@/components/DashboardClient';
 import BtcDominanceCard from '@/components/BtcDominanceCard';
+import { DashboardResponse } from '@/lib/types';
 
 export default function Dashboard() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<DashboardResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
