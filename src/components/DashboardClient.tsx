@@ -22,18 +22,21 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
 
   // Map window-specific fields to base fields
   const coinsWithMappedFields = useMemo(() => {
-    return initialCoins.map((coin) => ({
-      ...coin,
-      rr_score: parseFloat((coin as Record<string, string>)[`rr_score_${selectedWindow}d`] || '0') || null,
-      base_velocity: parseFloat((coin as Record<string, string>)[`velocity_${selectedWindow}d`] || '0') || null,
-      consistency_score: parseFloat((coin as Record<string, string>)[`consistency_${selectedWindow}d`] || '0') || null,
-      volume_score: parseFloat((coin as Record<string, string>)[`volume_${selectedWindow}d`] || '0') || null,
-      persistence_score: parseFloat((coin as Record<string, string>)[`persistence_${selectedWindow}d`] || '0') || null,
-      red_flags_penalty: parseFloat((coin as Record<string, string>)[`red_flags_${selectedWindow}d`] || '0') || null,
-      phase: (coin as Record<string, string>)[`phase_${selectedWindow}d`] || null,
-      days_tracking: coin.days_tracking || null,
-      market_context_multiplier: coin.market_context_multiplier || null,
-    }));
+    return initialCoins.map((coin) => {
+      const coinRecord = coin as unknown as Record<string, string>;
+      return {
+        ...coin,
+        rr_score: parseFloat(coinRecord[`rr_score_${selectedWindow}d`] || '0') || null,
+        base_velocity: parseFloat(coinRecord[`velocity_${selectedWindow}d`] || '0') || null,
+        consistency_score: parseFloat(coinRecord[`consistency_${selectedWindow}d`] || '0') || null,
+        volume_score: parseFloat(coinRecord[`volume_${selectedWindow}d`] || '0') || null,
+        persistence_score: parseFloat(coinRecord[`persistence_${selectedWindow}d`] || '0') || null,
+        red_flags_penalty: parseFloat(coinRecord[`red_flags_${selectedWindow}d`] || '0') || null,
+        phase: coinRecord[`phase_${selectedWindow}d`] || null,
+        days_tracking: coin.days_tracking || null,
+        market_context_multiplier: coin.market_context_multiplier || null,
+      };
+    });
   }, [initialCoins, selectedWindow]);
 
   // Filter and sort coins
