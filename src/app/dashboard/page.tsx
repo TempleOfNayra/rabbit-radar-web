@@ -9,10 +9,11 @@ import BtcDominanceCard from '@/components/BtcDominanceCard';
 export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function Dashboard() {
-  // Fetch dashboard data (default: rank 1-1000, no score filter, no limit = all coins)
+  // Fetch dashboard data with multi-window scores (default window: 14 days)
   const data = await rabbitRadarAPI.getDashboard({
     minRank: 1,
     maxRank: 1000,
+    window: 14,
   });
 
   return (
