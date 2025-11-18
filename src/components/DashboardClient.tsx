@@ -19,10 +19,30 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(50);
   const [selectedWindow, setSelectedWindow] = useState<3 | 7 | 14 | 30>(14);
+  const [coins, setCoins] = useState<CoinData[]>(initialCoins);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Fetch data for selected window
+  const handleWindowChange = async (window: 3 | 7 | 14 | 30) => {
+    setSelectedWindow(window);
+    setIsLoading(true);
+    setCurrentPage(1);
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://rabbit-radar-api.vercel.app';
+      const response = await fetch(`${apiUrl}/api/dashboard?window=${window}&minRank=1&maxRank=1000`);
+      const data = await response.json();
+      setCoins(data.data);
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Map window-specific fields to base fields
   const coinsWithMappedFields = useMemo(() => {
-    return initialCoins.map((coin) => {
+    return coins.map((coin) => {
       const coinRecord = coin as unknown as Record<string, string>;
       return {
         ...coin,
@@ -37,7 +57,7 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
         market_context_multiplier: coin.market_context_multiplier || null,
       };
     });
-  }, [initialCoins, selectedWindow]);
+  }, [coins, selectedWindow]);
 
   // Filter and sort coins
   const filteredAndSortedCoins = useMemo(() => {
@@ -153,15 +173,13 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
             {([3, 7, 14, 30] as const).map((window) => (
               <button
                 key={window}
-                onClick={() => {
-                  setSelectedWindow(window);
-                  setCurrentPage(1);
-                }}
+                onClick={() => handleWindowChange(window)}
+                disabled={isLoading}
                 className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
                   selectedWindow === window
                     ? 'bg-blue-600 text-white shadow-lg scale-105'
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
-                }`}
+                } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {window}d
               </button>
