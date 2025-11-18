@@ -2,19 +2,52 @@
  * RabbitRadar Dashboard - Main Page
  */
 
-import rabbitRadarAPI from '@/lib/api';
+'use client';
+
+import { useEffect, useState } from 'react';
 import DashboardClient from '@/components/DashboardClient';
 import BtcDominanceCard from '@/components/BtcDominanceCard';
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export default function Dashboard() {
+  const [data, setData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-export default async function Dashboard() {
-  // Fetch dashboard data with multi-window scores (default window: 14 days)
-  const data = await rabbitRadarAPI.getDashboard({
-    minRank: 1,
-    maxRank: 1000,
-    window: 14,
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://rabbit-radar-api.vercel.app';
+        const response = await fetch(`${apiUrl}/api/dashboard?window=14&minRank=1&maxRank=1000`);
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error('Failed to fetch dashboard data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen p-8 bg-gradient-to-b from-gray-900 to-gray-950">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="text-4xl mb-4">Loading...</div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!data) {
+    return (
+      <main className="min-h-screen p-8 bg-gradient-to-b from-gray-900 to-gray-950">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="text-4xl mb-4">Failed to load data</div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen p-8 bg-gradient-to-b from-gray-900 to-gray-950">
