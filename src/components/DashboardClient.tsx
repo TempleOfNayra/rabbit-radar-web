@@ -133,7 +133,7 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
     });
 
     return result;
-  }, [initialCoins, search, minScore, sortField, sortDirection]);
+  }, [coinsWithMappedFields, search, minScore, sortField, sortDirection]);
 
   // Pagination
   const totalPages = Math.ceil(filteredAndSortedCoins.length / itemsPerPage);
