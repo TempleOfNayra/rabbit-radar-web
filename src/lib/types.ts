@@ -23,6 +23,10 @@ export interface CoinData {
   market_context_multiplier: number | null;
   timestamp: string;
 
+  // Rank transitions (for selected window)
+  start_rank?: number | null;
+  end_rank?: number | null;
+
   // Multi-window scores (optional)
   rr_score_14d?: number | null;
   velocity_14d?: number | null;

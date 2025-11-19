@@ -55,18 +55,20 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
   // Map window-specific fields to base fields
   const coinsWithMappedFields = useMemo(() => {
     return coins.map((coin) => {
-      const coinRecord = coin as unknown as Record<string, string>;
+      const coinRecord = coin as unknown as Record<string, string | number>;
       return {
         ...coin,
-        rr_score: parseFloat(coinRecord[`rr_score_${selectedWindow}d`] || '0') || null,
-        base_velocity: parseFloat(coinRecord[`velocity_${selectedWindow}d`] || '0') || null,
-        consistency_score: parseFloat(coinRecord[`consistency_${selectedWindow}d`] || '0') || null,
-        volume_score: parseFloat(coinRecord[`volume_${selectedWindow}d`] || '0') || null,
-        persistence_score: parseFloat(coinRecord[`persistence_${selectedWindow}d`] || '0') || null,
-        red_flags_penalty: parseFloat(coinRecord[`red_flags_${selectedWindow}d`] || '0') || null,
-        phase: coinRecord[`phase_${selectedWindow}d`] || null,
+        rr_score: parseFloat(String(coinRecord[`rr_score_${selectedWindow}d`] || '0')) || null,
+        base_velocity: parseFloat(String(coinRecord[`velocity_${selectedWindow}d`] || '0')) || null,
+        consistency_score: parseFloat(String(coinRecord[`consistency_${selectedWindow}d`] || '0')) || null,
+        volume_score: parseFloat(String(coinRecord[`volume_${selectedWindow}d`] || '0')) || null,
+        persistence_score: parseFloat(String(coinRecord[`persistence_${selectedWindow}d`] || '0')) || null,
+        red_flags_penalty: parseFloat(String(coinRecord[`red_flags_${selectedWindow}d`] || '0')) || null,
+        phase: coinRecord[`phase_${selectedWindow}d`] as string || null,
         days_tracking: coin.days_tracking || null,
         market_context_multiplier: coin.market_context_multiplier || null,
+        start_rank: parseInt(String(coinRecord[`start_rank_${selectedWindow}d`] || '0')) || null,
+        end_rank: coin.rank, // Current rank is the end rank
       };
     });
   }, [coins, selectedWindow]);

@@ -65,11 +65,19 @@ export default function CoinRow({ coin }: CoinRowProps) {
                 }
 
                 const badge = getVelocityBadge(velocity);
+                const startRank = coin.start_rank;
+                const endRank = coin.end_rank;
+
                 return (
-                  <div className="flex items-center justify-end">
+                  <div className="flex flex-col items-end gap-1">
                     <span className={`px-2 py-1 rounded text-xs font-semibold ${badge.color} whitespace-nowrap`}>
                       {badge.icon} {velocity.toFixed(2)}
                     </span>
+                    {startRank && endRank && (
+                      <span className="text-xs text-gray-400">
+                        #{startRank} → #{endRank}
+                      </span>
+                    )}
                   </div>
                 );
               })()}
@@ -152,7 +160,7 @@ export default function CoinRow({ coin }: CoinRowProps) {
                   </div>
                 </div>
 
-                {/* Base Velocity */}
+                {/* Base Velocity with Rank Transition */}
                 <div className="p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/50 hover:border-blue-300 dark:hover:border-blue-600 transition-colors">
                   <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Base Velocity</div>
                   <div className="text-lg font-bold">
@@ -160,6 +168,11 @@ export default function CoinRow({ coin }: CoinRowProps) {
                       ? `${parseFloat(String(coin.base_velocity)).toFixed(2)} ranks/day`
                       : 'N/A'}
                   </div>
+                  {coin.start_rank && coin.end_rank && (
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                      #{coin.start_rank} → #{coin.end_rank}
+                    </div>
+                  )}
                 </div>
 
                 {/* Market Context Multiplier */}
