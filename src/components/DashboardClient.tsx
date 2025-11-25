@@ -52,26 +52,10 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
     }
   };
 
-  // Map window-specific fields to base fields
+  // Data is already in the correct format from API (no mapping needed)
   const coinsWithMappedFields = useMemo(() => {
-    return coins.map((coin) => {
-      const coinRecord = coin as unknown as Record<string, string | number>;
-      return {
-        ...coin,
-        rr_score: parseFloat(String(coinRecord[`rr_score_${selectedWindow}d`] || '0')) || null,
-        base_velocity: parseFloat(String(coinRecord[`velocity_${selectedWindow}d`] || '0')) || null,
-        consistency_score: parseFloat(String(coinRecord[`consistency_${selectedWindow}d`] || '0')) || null,
-        volume_score: parseFloat(String(coinRecord[`volume_${selectedWindow}d`] || '0')) || null,
-        persistence_score: parseFloat(String(coinRecord[`persistence_${selectedWindow}d`] || '0')) || null,
-        red_flags_penalty: parseFloat(String(coinRecord[`red_flags_${selectedWindow}d`] || '0')) || null,
-        phase: coinRecord[`phase_${selectedWindow}d`] as string || null,
-        days_tracking: coin.days_tracking || null,
-        market_context_multiplier: coin.market_context_multiplier || null,
-        start_rank: parseInt(String(coinRecord[`start_rank_${selectedWindow}d`] || '0')) || null,
-        end_rank: coin.rank, // Current rank is the end rank
-      };
-    });
-  }, [coins, selectedWindow]);
+    return coins;
+  }, [coins]);
 
   // Filter and sort coins
   const filteredAndSortedCoins = useMemo(() => {
@@ -87,9 +71,13 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
       );
     }
 
-    // Score filter
+    // Score filter (use base_velocity as fallback if rr_score not available)
     if (minScore > 0) {
-      result = result.filter((coin) => (coin.rr_score || 0) >= minScore);
+      result = result.filter((coin) => {
+        const score = typeof coin.rr_score === 'number' ? coin.rr_score :
+                     (typeof coin.rr_score === 'string' ? parseFloat(coin.rr_score) : 0);
+        return score >= minScore;
+      });
     }
 
     // Sort
