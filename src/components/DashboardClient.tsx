@@ -18,12 +18,12 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
   const [minScore, setMinScore] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(50);
-  const [selectedWindow, setSelectedWindow] = useState<3 | 7 | 14 | 30>(14);
+  const [selectedWindow, setSelectedWindow] = useState<1 | 3 | 7 | 14 | 30>(14);
   const [coins, setCoins] = useState<CoinData[]>(initialCoins);
   const [isLoading, setIsLoading] = useState(false);
 
   // Fetch data for selected window
-  const handleWindowChange = async (window: 3 | 7 | 14 | 30) => {
+  const handleWindowChange = async (window: 1 | 3 | 7 | 14 | 30) => {
     setSelectedWindow(window);
     setIsLoading(true);
     setCurrentPage(1);
@@ -184,7 +184,7 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
         <div className="mb-4 pb-4 border-b border-gray-800">
           <label className="block text-sm text-gray-400 mb-3">📊 Time Window</label>
           <div className="flex gap-2">
-            {([3, 7, 14, 30] as const).map((window) => (
+            {([1, 3, 7, 14, 30] as const).map((window) => (
               <button
                 key={window}
                 onClick={() => handleWindowChange(window)}
