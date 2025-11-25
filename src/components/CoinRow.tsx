@@ -65,17 +65,24 @@ export default function CoinRow({ coin }: CoinRowProps) {
                 }
 
                 const badge = getVelocityBadge(velocity);
-                const startRank = coin.start_rank;
-                const endRank = coin.end_rank;
+                const startRank = typeof coin.start_rank === 'string' ? parseInt(coin.start_rank) : coin.start_rank;
+                const currentRank = coin.rank;
+
+                // Determine color: green if rank decreased (improved), red if rank increased (worsened)
+                const rankChangeColor = startRank && startRank > currentRank
+                  ? 'text-green-400' // Improved: e.g., 945 → 567
+                  : startRank && startRank < currentRank
+                    ? 'text-red-400' // Worsened: e.g., 567 → 945
+                    : 'text-gray-400'; // No change or no data
 
                 return (
                   <div className="flex flex-col items-end gap-1">
                     <span className={`px-2 py-1 rounded text-xs font-semibold ${badge.color} whitespace-nowrap`}>
                       {badge.icon} {velocity.toFixed(2)}
                     </span>
-                    {startRank && endRank && (
-                      <span className="text-xs text-gray-400">
-                        #{startRank} → #{endRank}
+                    {startRank && (
+                      <span className={`text-xs font-medium ${rankChangeColor}`}>
+                        #{startRank} → #{currentRank}
                       </span>
                     )}
                   </div>
