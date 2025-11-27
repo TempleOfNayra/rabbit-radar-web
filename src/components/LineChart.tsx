@@ -42,6 +42,8 @@ export default function LineChart({
           stroke="#9CA3AF"
           style={{ fontSize: '12px' }}
           tick={{ fill: '#9CA3AF' }}
+          interval="preserveStartEnd"
+          minTickGap={50}
         />
 
         <YAxis
