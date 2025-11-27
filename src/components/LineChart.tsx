@@ -74,9 +74,9 @@ export default function LineChart({
           type="monotone"
           dataKey="value"
           stroke={color}
-          strokeWidth={2}
-          dot={{ fill: color, r: 4 }}
-          activeDot={{ r: 6 }}
+          strokeWidth={1.5}
+          dot={{ fill: color, r: 3 }}
+          activeDot={{ r: 5 }}
         />
       </RechartsLine>
     </ResponsiveContainer>
