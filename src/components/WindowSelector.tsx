@@ -1,8 +1,8 @@
 'use client';
 
 interface WindowSelectorProps {
-  selectedWindow: 1 | 3 | 7 | 14 | 30;
-  onWindowChange: (window: 1 | 3 | 7 | 14 | 30) => void;
+  selectedWindow: 2 | 3 | 7 | 14 | 30 | 90 | 180 | 270 | 365;
+  onWindowChange: (window: 2 | 3 | 7 | 14 | 30 | 90 | 180 | 270 | 365) => void;
   disabled?: boolean;
   size?: 'sm' | 'md' | 'lg';
 }
@@ -19,9 +19,22 @@ export default function WindowSelector({
     lg: 'px-6 py-4 text-lg',
   };
 
+  const windows = [2, 3, 7, 14, 30, 90, 180, 270, 365] as const;
+  const labels: Record<number, string> = {
+    2: '2d',
+    3: '3d',
+    7: '7d',
+    14: '14d',
+    30: '30d',
+    90: '90d',
+    180: '180d',
+    270: '270d',
+    365: '1y',
+  };
+
   return (
-    <div className="flex gap-2">
-      {([1, 3, 7, 14, 30] as const).map((window) => (
+    <div className="flex gap-2 flex-wrap">
+      {windows.map((window) => (
         <button
           key={window}
           onClick={() => onWindowChange(window)}
@@ -32,7 +45,7 @@ export default function WindowSelector({
               : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
           } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          {window}d
+          {labels[window]}
         </button>
       ))}
     </div>

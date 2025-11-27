@@ -18,7 +18,7 @@ export default function VelocityChart({ coinId }: VelocityChartProps) {
   const [data, setData] = useState<VelocityDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [window, setWindow] = useState<1 | 3 | 7 | 14 | 30>(14);
+  const [window, setWindow] = useState<2 | 3 | 7 | 14 | 30 | 90 | 180 | 270 | 365>(14);
 
   useEffect(() => {
     async function fetchVelocityData() {

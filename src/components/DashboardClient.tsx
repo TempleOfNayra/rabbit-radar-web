@@ -19,7 +19,7 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
   const [minScore, setMinScore] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(50);
-  const [selectedWindow, setSelectedWindow] = useState<1 | 3 | 7 | 14 | 30>(14);
+  const [selectedWindow, setSelectedWindow] = useState<2 | 3 | 7 | 14 | 30 | 90 | 180 | 270 | 365>(14);
   const [coins, setCoins] = useState<CoinData[]>(initialCoins);
   const [isLoading, setIsLoading] = useState(false);
 
