@@ -20,7 +20,7 @@ export default function LineChart({
   showGrid = true,
   yAxisLabel = '',
   inverse = false,
-}: RechartsLineChartProps) {
+}: LineChartProps) {
   if (data.length === 0) {
     return <div className="text-gray-500 text-center py-8">No data available</div>;
   }
