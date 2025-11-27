@@ -153,7 +153,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
           </div>
           <div className="bg-gray-800 rounded-lg p-4">
             <div className="text-gray-400 text-sm">Base Velocity</div>
-            <div className="text-xl font-semibold mt-1">{score?.baseVelocity !== null && score?.baseVelocity !== undefined ? score.baseVelocity.toFixed(4) : 'N/A'}</div>
+            <div className="text-xl font-semibold mt-1">{score?.baseVelocity !== null && score?.baseVelocity !== undefined ? parseFloat(score.baseVelocity).toFixed(4) : 'N/A'}</div>
           </div>
         </div>
       </div>
@@ -250,7 +250,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
                 <div className="text-4xl font-black text-center">
                   <span className={`${velocityBadge.color.replace('bg-', 'text-').replace('/70', '')}`}>
                     {score?.baseVelocity !== null && score?.baseVelocity !== undefined
-                      ? score.baseVelocity.toFixed(2)
+                      ? parseFloat(score.baseVelocity).toFixed(2)
                       : 'N/A'}
                   </span>
                 </div>
@@ -290,7 +290,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
         <div className="text-center">
           <div className="text-gray-300 text-sm uppercase tracking-wide mb-2">RabbitRadar Score</div>
           <div className={`text-6xl font-bold ${getScoreColor(score?.rrScore ?? 0)}`}>
-            {score?.rrScore !== null && score?.rrScore !== undefined ? score.rrScore.toFixed(2) : 'N/A'}
+            {score?.rrScore !== null && score?.rrScore !== undefined ? parseFloat(score.rrScore).toFixed(2) : 'N/A'}
           </div>
           <div className="text-gray-400 text-sm mt-2">
             {(score?.rrScore ?? 0) >= 8 ? '🐰 Strong Rabbit Candidate' :
@@ -305,19 +305,19 @@ export default async function CoinDetailPage({ params }: PageProps) {
           <div className="bg-gray-900/50 rounded-lg p-3 text-center">
             <div className="text-gray-400 text-xs">Consistency</div>
             <div className={`text-2xl font-bold ${getScoreColor(score?.consistencyScore ?? 0)}`}>
-              {score?.consistencyScore !== null && score?.consistencyScore !== undefined ? score.consistencyScore.toFixed(1) : 'N/A'}
+              {score?.consistencyScore !== null && score?.consistencyScore !== undefined ? parseFloat(score.consistencyScore).toFixed(1) : 'N/A'}
             </div>
           </div>
           <div className="bg-gray-900/50 rounded-lg p-3 text-center">
             <div className="text-gray-400 text-xs">Volume</div>
             <div className={`text-2xl font-bold ${getScoreColor(score?.volumeScore ?? 0)}`}>
-              {score?.volumeScore !== null && score?.volumeScore !== undefined ? score.volumeScore.toFixed(1) : 'N/A'}
+              {score?.volumeScore !== null && score?.volumeScore !== undefined ? parseFloat(score.volumeScore).toFixed(1) : 'N/A'}
             </div>
           </div>
           <div className="bg-gray-900/50 rounded-lg p-3 text-center">
             <div className="text-gray-400 text-xs">Persistence</div>
             <div className={`text-2xl font-bold ${getScoreColor(score?.persistenceScore ?? 0)}`}>
-              {score?.persistenceScore !== null && score?.persistenceScore !== undefined ? score.persistenceScore.toFixed(1) : 'N/A'}
+              {score?.persistenceScore !== null && score?.persistenceScore !== undefined ? parseFloat(score.persistenceScore).toFixed(1) : 'N/A'}
             </div>
           </div>
           <div className="bg-gray-900/50 rounded-lg p-3 text-center">
@@ -327,7 +327,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
               (score?.redFlagsPenalty ?? 1) < 0.5 ? 'text-yellow-400' :
               'text-red-400'
             }`}>
-              {score?.redFlagsPenalty !== null && score?.redFlagsPenalty !== undefined ? score.redFlagsPenalty.toFixed(1) : 'N/A'}
+              {score?.redFlagsPenalty !== null && score?.redFlagsPenalty !== undefined ? parseFloat(score.redFlagsPenalty).toFixed(1) : 'N/A'}
             </div>
           </div>
         </div>
@@ -429,7 +429,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
           <div className="flex items-center gap-3 mb-4">
             <span className="text-3xl">{velocityInterp.emoji}</span>
             <div>
-              <h3 className="text-xl font-bold">Base Velocity: {score?.baseVelocity !== null && score?.baseVelocity !== undefined ? score.baseVelocity.toFixed(4) : 'N/A'} ranks/day</h3>
+              <h3 className="text-xl font-bold">Base Velocity: {score?.baseVelocity !== null && score?.baseVelocity !== undefined ? parseFloat(score.baseVelocity).toFixed(4) : 'N/A'} ranks/day</h3>
               <span className={`text-sm font-semibold ${velocityInterp.color}`}>{velocityInterp.label}</span>
             </div>
           </div>
@@ -461,7 +461,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
           <div className="flex items-center gap-3 mb-4">
             <span className="text-3xl">{consistencyInterp.emoji}</span>
             <div>
-              <h3 className="text-xl font-bold">Consistency Score: {score?.consistencyScore !== null && score?.consistencyScore !== undefined ? score.consistencyScore.toFixed(2) : 'N/A'}/10</h3>
+              <h3 className="text-xl font-bold">Consistency Score: {score?.consistencyScore !== null && score?.consistencyScore !== undefined ? parseFloat(score.consistencyScore).toFixed(2) : 'N/A'}/10</h3>
               <span className={`text-sm font-semibold ${consistencyInterp.color}`}>{consistencyInterp.label}</span>
             </div>
           </div>
@@ -493,7 +493,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
           <div className="flex items-center gap-3 mb-4">
             <span className="text-3xl">{volumeInterp.emoji}</span>
             <div>
-              <h3 className="text-xl font-bold">Volume Score: {score?.volumeScore !== null && score?.volumeScore !== undefined ? score.volumeScore.toFixed(2) : 'N/A'}/10</h3>
+              <h3 className="text-xl font-bold">Volume Score: {score?.volumeScore !== null && score?.volumeScore !== undefined ? parseFloat(score.volumeScore).toFixed(2) : 'N/A'}/10</h3>
               <span className={`text-sm font-semibold ${volumeInterp.color}`}>{volumeInterp.label}</span>
             </div>
           </div>
@@ -528,7 +528,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
           <div className="flex items-center gap-3 mb-4">
             <span className="text-3xl">{persistenceInterp.emoji}</span>
             <div>
-              <h3 className="text-xl font-bold">Persistence Score: {score?.persistenceScore !== null && score?.persistenceScore !== undefined ? score.persistenceScore.toFixed(2) : 'N/A'}/10</h3>
+              <h3 className="text-xl font-bold">Persistence Score: {score?.persistenceScore !== null && score?.persistenceScore !== undefined ? parseFloat(score.persistenceScore).toFixed(2) : 'N/A'}/10</h3>
               <span className={`text-sm font-semibold ${persistenceInterp.color}`}>{persistenceInterp.label}</span>
             </div>
           </div>
@@ -560,7 +560,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
           <div className="flex items-center gap-3 mb-4">
             <span className="text-3xl">{redFlagsInterp.emoji}</span>
             <div>
-              <h3 className="text-xl font-bold">Red Flags Penalty: {score?.redFlagsPenalty !== null && score?.redFlagsPenalty !== undefined ? score.redFlagsPenalty.toFixed(2) : 'N/A'}</h3>
+              <h3 className="text-xl font-bold">Red Flags Penalty: {score?.redFlagsPenalty !== null && score?.redFlagsPenalty !== undefined ? parseFloat(score.redFlagsPenalty).toFixed(2) : 'N/A'}</h3>
               <span className={`text-sm font-semibold ${redFlagsInterp.color}`}>
                 {redFlagsInterp.severity} - {redFlagsInterp.label}
               </span>
@@ -619,23 +619,23 @@ export default async function CoinDetailPage({ params }: PageProps) {
           <div className="space-y-3 mb-4">
             <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded">
               <span className="text-gray-300">Base Velocity (raw speed)</span>
-              <span className="font-bold text-purple-400">{score?.baseVelocity !== null && score?.baseVelocity !== undefined ? score.baseVelocity.toFixed(4) : 'N/A'}</span>
+              <span className="font-bold text-purple-400">{score?.baseVelocity !== null && score?.baseVelocity !== undefined ? parseFloat(score.baseVelocity).toFixed(4) : 'N/A'}</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded">
               <span className="text-gray-300">× Consistency Score (0-10)</span>
-              <span className="font-bold text-green-400">{score?.consistencyScore !== null && score?.consistencyScore !== undefined ? score.consistencyScore.toFixed(2) : 'N/A'}</span>
+              <span className="font-bold text-green-400">{score?.consistencyScore !== null && score?.consistencyScore !== undefined ? parseFloat(score.consistencyScore).toFixed(2) : 'N/A'}</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded">
               <span className="text-gray-300">× Volume Score (0-10)</span>
-              <span className="font-bold text-blue-400">{score?.volumeScore !== null && score?.volumeScore !== undefined ? score.volumeScore.toFixed(2) : 'N/A'}</span>
+              <span className="font-bold text-blue-400">{score?.volumeScore !== null && score?.volumeScore !== undefined ? parseFloat(score.volumeScore).toFixed(2) : 'N/A'}</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded">
               <span className="text-gray-300">× Persistence Score (0-10)</span>
-              <span className="font-bold text-yellow-400">{score?.persistenceScore !== null && score?.persistenceScore !== undefined ? score.persistenceScore.toFixed(2) : 'N/A'}</span>
+              <span className="font-bold text-yellow-400">{score?.persistenceScore !== null && score?.persistenceScore !== undefined ? parseFloat(score.persistenceScore).toFixed(2) : 'N/A'}</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded">
               <span className="text-gray-300">× Red Flags Penalty (0-1)</span>
-              <span className={`font-bold ${redFlagsInterp.color}`}>{score?.redFlagsPenalty !== null && score?.redFlagsPenalty !== undefined ? score.redFlagsPenalty.toFixed(2) : 'N/A'}</span>
+              <span className={`font-bold ${redFlagsInterp.color}`}>{score?.redFlagsPenalty !== null && score?.redFlagsPenalty !== undefined ? parseFloat(score.redFlagsPenalty).toFixed(2) : 'N/A'}</span>
             </div>
           </div>
 
@@ -643,7 +643,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
             <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-lg">
               <span className="text-lg font-bold text-white">Final RabbitRadar Score</span>
               <span className={`text-3xl font-bold ${getScoreColor(score?.rrScore ?? 0)}`}>
-                {score?.rrScore !== null && score?.rrScore !== undefined ? score.rrScore.toFixed(2) : 'N/A'}
+                {score?.rrScore !== null && score?.rrScore !== undefined ? parseFloat(score.rrScore).toFixed(2) : 'N/A'}
               </span>
             </div>
           </div>
