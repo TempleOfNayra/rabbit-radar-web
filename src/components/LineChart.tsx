@@ -26,9 +26,10 @@ export default function LineChart({
   }
 
   // Transform data to Recharts format
+  // Ensure values are numbers (handle string values from API)
   const chartData = data.map((value, index) => ({
     name: labels[index] || `${index}`,
-    value: value,
+    value: typeof value === 'string' ? parseFloat(value) : value,
   }));
 
   return (
