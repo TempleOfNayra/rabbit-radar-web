@@ -1,5 +1,7 @@
 'use client';
 
+import { LineChart as RechartsLine, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
 interface LineChartProps {
   data: number[];
   labels?: string[];
@@ -18,114 +20,62 @@ export default function LineChart({
   showGrid = true,
   yAxisLabel = '',
   inverse = false,
-}: LineChartProps) {
+}: RechartsLineChartProps) {
   if (data.length === 0) {
     return <div className="text-gray-500 text-center py-8">No data available</div>;
   }
 
-  const width = 800;
-  const padding = 40;
-  const chartWidth = width - padding * 2;
-  const chartHeight = height - padding * 2;
-
-  const minValue = Math.min(...data);
-  const maxValue = Math.max(...data);
-  const valueRange = maxValue - minValue || 1;
-
-  // Generate points for the line
-  const points = data.map((value, index) => {
-    const x = padding + (index / (data.length - 1)) * chartWidth;
-    const y = inverse
-      ? padding + ((value - minValue) / valueRange) * chartHeight
-      : padding + chartHeight - ((value - minValue) / valueRange) * chartHeight;
-    return { x, y, value };
-  });
-
-  const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
-
-  // Create area fill path
-  const areaD = `${pathD} L ${points[points.length - 1].x} ${padding + chartHeight} L ${padding} ${padding + chartHeight} Z`;
-
-  // Grid lines
-  const gridLines = showGrid ? [0, 0.25, 0.5, 0.75, 1].map((ratio) => {
-    const y = padding + chartHeight * ratio;
-    const value = inverse
-      ? minValue + valueRange * ratio
-      : maxValue - valueRange * ratio;
-    return { y, value };
-  }) : [];
+  // Transform data to Recharts format
+  const chartData = data.map((value, index) => ({
+    name: labels[index] || `${index}`,
+    value: value,
+  }));
 
   return (
-    <div className="relative">
-      <svg viewBox={`0 0 ${width} ${height}`} className="w-full" style={{ height }}>
-        {/* Grid lines */}
-        {gridLines.map((line, i) => (
-          <g key={i}>
-            <line
-              x1={padding}
-              y1={line.y}
-              x2={width - padding}
-              y2={line.y}
-              stroke="#374151"
-              strokeWidth="1"
-              strokeDasharray="4 4"
-            />
-            <text x={padding - 5} y={line.y + 4} textAnchor="end" fill="#9ca3af" fontSize="12">
-              {line.value.toFixed(inverse ? 0 : 2)}
-            </text>
-          </g>
-        ))}
+    <ResponsiveContainer width="100%" height={height}>
+      <RechartsLine data={chartData} margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
+        {showGrid && <CartesianGrid strokeDasharray="3 3" stroke="#374151" />}
 
-        {/* Area fill */}
-        <path d={areaD} fill={color} fillOpacity="0.1" />
-
-        {/* Line */}
-        <path
-          d={pathD}
-          stroke={color}
-          strokeWidth="2"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+        <XAxis
+          dataKey="name"
+          stroke="#9CA3AF"
+          style={{ fontSize: '12px' }}
+          tick={{ fill: '#9CA3AF' }}
         />
 
-        {/* Points */}
-        {points.map((point, i) => (
-          <circle
-            key={i}
-            cx={point.x}
-            cy={point.y}
-            r="3"
-            fill={color}
-            className="hover:r-5 transition-all cursor-pointer"
-          >
-            <title>{`${labels[i] || i}: ${point.value}`}</title>
-          </circle>
-        ))}
+        <YAxis
+          stroke="#9CA3AF"
+          style={{ fontSize: '12px' }}
+          tick={{ fill: '#9CA3AF' }}
+          label={yAxisLabel ? {
+            value: yAxisLabel,
+            angle: -90,
+            position: 'insideLeft',
+            fill: '#9CA3AF',
+            style: { fontSize: '12px' }
+          } : undefined}
+          reversed={inverse}
+        />
 
-        {/* Y-axis label */}
-        {yAxisLabel && (
-          <text
-            x={padding / 2}
-            y={padding + chartHeight / 2}
-            textAnchor="middle"
-            fill="#9ca3af"
-            fontSize="12"
-            transform={`rotate(-90, ${padding / 2}, ${padding + chartHeight / 2})`}
-          >
-            {yAxisLabel}
-          </text>
-        )}
-      </svg>
+        <Tooltip
+          contentStyle={{
+            backgroundColor: '#1F2937',
+            border: '1px solid #374151',
+            borderRadius: '8px',
+            color: '#F3F4F6',
+          }}
+          labelStyle={{ color: '#9CA3AF' }}
+        />
 
-      {/* Legend */}
-      {labels.length > 0 && (
-        <div className="flex justify-between text-xs text-gray-500 mt-2 px-10">
-          <span>{labels[0]}</span>
-          <span>{labels[Math.floor(labels.length / 2)]}</span>
-          <span>{labels[labels.length - 1]}</span>
-        </div>
-      )}
-    </div>
+        <Line
+          type="monotone"
+          dataKey="value"
+          stroke={color}
+          strokeWidth={2}
+          dot={{ fill: color, r: 4 }}
+          activeDot={{ r: 6 }}
+        />
+      </RechartsLine>
+    </ResponsiveContainer>
   );
 }
