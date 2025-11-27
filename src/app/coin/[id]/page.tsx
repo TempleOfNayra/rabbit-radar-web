@@ -1,6 +1,7 @@
 import rabbitRadarAPI from '@/lib/api';
 import { formatNumber, formatPrice, getScoreColor, formatRelativeTime, getVelocityBadge } from '@/lib/utils';
 import LineChart from '@/components/LineChart';
+import VelocityChart from '@/components/VelocityChart';
 import Link from 'next/link';
 
 interface PageProps {
@@ -155,6 +156,11 @@ export default async function CoinDetailPage({ params }: PageProps) {
             <div className="text-xl font-semibold mt-1">{score?.baseVelocity !== null && score?.baseVelocity !== undefined ? score.baseVelocity.toFixed(4) : 'N/A'}</div>
           </div>
         </div>
+      </div>
+
+      {/* Velocity History Chart */}
+      <div className="mb-6">
+        <VelocityChart coinId={id} window={14} />
       </div>
 
       {/* Ranking Velocity Breakdown - NEW VISUAL SECTION */}
