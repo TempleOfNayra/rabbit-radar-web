@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import WindowSelector from './WindowSelector';
 
 interface VelocityChartProps {
   coinId: string;
@@ -92,22 +93,12 @@ export default function VelocityChart({ coinId }: VelocityChartProps) {
           Velocity History
         </h3>
 
-        {/* Window Selector */}
-        <div className="flex gap-2">
-          {([1, 3, 7, 14, 30] as const).map((w) => (
-            <button
-              key={w}
-              onClick={() => setWindow(w)}
-              className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
-                window === w
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-              }`}
-            >
-              {w}d
-            </button>
-          ))}
-        </div>
+        <WindowSelector
+          selectedWindow={window}
+          onWindowChange={setWindow}
+          disabled={loading}
+          size="sm"
+        />
       </div>
 
       <ResponsiveContainer width="100%" height={300}>

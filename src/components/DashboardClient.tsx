@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import CoinRow from './CoinRow';
+import WindowSelector from './WindowSelector';
 import { CoinData } from '@/lib/types';
 
 interface DashboardClientProps {
@@ -171,22 +172,12 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
         {/* Window Selector - Prominent */}
         <div className="mb-4 pb-4 border-b border-gray-800">
           <label className="block text-sm text-gray-400 mb-3">📊 Time Window</label>
-          <div className="flex gap-2">
-            {([1, 3, 7, 14, 30] as const).map((window) => (
-              <button
-                key={window}
-                onClick={() => handleWindowChange(window)}
-                disabled={isLoading}
-                className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all ${
-                  selectedWindow === window
-                    ? 'bg-blue-600 text-white shadow-lg scale-105'
-                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
-                } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                {window}d
-              </button>
-            ))}
-          </div>
+          <WindowSelector
+            selectedWindow={selectedWindow}
+            onWindowChange={handleWindowChange}
+            disabled={isLoading}
+            size="md"
+          />
           <p className="text-xs text-gray-500 mt-2">
             Showing R2 scores calculated over the last {selectedWindow} days
           </p>
