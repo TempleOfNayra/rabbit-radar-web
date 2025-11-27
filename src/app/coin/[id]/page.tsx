@@ -160,7 +160,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
 
       {/* Velocity History Chart */}
       <div className="mb-6">
-        <VelocityChart coinId={id} window={14} />
+        <VelocityChart coinId={id} />
       </div>
 
       {/* Ranking Velocity Breakdown - NEW VISUAL SECTION */}

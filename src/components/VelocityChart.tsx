@@ -5,7 +5,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 interface VelocityChartProps {
   coinId: string;
-  window: 1 | 3 | 7 | 14 | 30;
 }
 
 interface VelocityDataPoint {
@@ -14,10 +13,11 @@ interface VelocityDataPoint {
   rr_score: number;
 }
 
-export default function VelocityChart({ coinId, window }: VelocityChartProps) {
+export default function VelocityChart({ coinId }: VelocityChartProps) {
   const [data, setData] = useState<VelocityDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [window, setWindow] = useState<1 | 3 | 7 | 14 | 30>(14);
 
   useEffect(() => {
     async function fetchVelocityData() {
@@ -87,9 +87,28 @@ export default function VelocityChart({ coinId, window }: VelocityChartProps) {
 
   return (
     <div className="bg-gray-900 rounded-lg p-6">
-      <h3 className="text-xl font-bold mb-4">
-        {window}-Day Velocity History
-      </h3>
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-bold">
+          Velocity History
+        </h3>
+
+        {/* Window Selector */}
+        <div className="flex gap-2">
+          {([1, 3, 7, 14, 30] as const).map((w) => (
+            <button
+              key={w}
+              onClick={() => setWindow(w)}
+              className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                window === w
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+              }`}
+            >
+              {w}d
+            </button>
+          ))}
+        </div>
+      </div>
 
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
