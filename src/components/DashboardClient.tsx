@@ -256,15 +256,15 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
           <div className="overflow-x-auto">
             <table className="w-full">
               <colgroup>
-                <col style={{ width: '60px', minWidth: '60px' }} /> {/* Rank */}
-                <col style={{ width: '200px', minWidth: '200px' }} /> {/* Coin */}
-                <col style={{ width: '130px', minWidth: '130px' }} /> {/* Price */}
-                <col style={{ width: '140px', minWidth: '140px' }} /> {/* Market Cap */}
-                <col style={{ width: '140px', minWidth: '140px' }} /> {/* 24h Volume */}
-                <col style={{ width: '110px', minWidth: '110px' }} /> {/* RR Score */}
-                <col style={{ width: '110px', minWidth: '110px' }} /> {/* Velocity */}
-                <col style={{ width: '100px', minWidth: '100px' }} /> {/* Phase */}
-                <col style={{ width: '90px', minWidth: '90px' }} /> {/* Days */}
+                <col style={{ width: '60px', minWidth: '60px' }} />
+                <col style={{ width: '200px', minWidth: '200px' }} />
+                <col style={{ width: '130px', minWidth: '130px' }} />
+                <col style={{ width: '140px', minWidth: '140px' }} />
+                <col style={{ width: '140px', minWidth: '140px' }} />
+                <col style={{ width: '110px', minWidth: '110px' }} />
+                <col style={{ width: '110px', minWidth: '110px' }} />
+                <col style={{ width: '100px', minWidth: '100px' }} />
+                <col style={{ width: '90px', minWidth: '90px' }} />
               </colgroup>
               <thead className="bg-gray-800 text-sm">
                 <tr>
