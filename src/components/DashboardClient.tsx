@@ -24,7 +24,7 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
   const [isLoading, setIsLoading] = useState(false);
 
   // Fetch data for selected window
-  const handleWindowChange = async (window: 1 | 3 | 7 | 14 | 30) => {
+  const handleWindowChange = async (window: 2 | 3 | 7 | 14 | 30 | 90 | 180 | 270 | 365) => {
     setSelectedWindow(window);
     setIsLoading(true);
     setCurrentPage(1);
