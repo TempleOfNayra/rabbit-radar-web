@@ -17,8 +17,7 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
   const [sortField, setSortField] = useState<SortField>('rank');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [minScore, setMinScore] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(50);
+  const [velocityFilter, setVelocityFilter] = useState<'all' | 'rising' | 'falling' | 'exclude_static'>('all');
   const [selectedWindow, setSelectedWindow] = useState<2 | 3 | 7 | 14 | 30 | 90 | 180 | 270 | 365>(14);
   const [coins, setCoins] = useState<CoinData[]>(initialCoins);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +26,6 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
   const handleWindowChange = async (window: 2 | 3 | 7 | 14 | 30 | 90 | 180 | 270 | 365) => {
     setSelectedWindow(window);
     setIsLoading(true);
-    setCurrentPage(1);
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://rabbit-radar-api.vercel.app';
@@ -81,6 +79,24 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
       });
     }
 
+    // Velocity filter
+    if (velocityFilter !== 'all') {
+      result = result.filter((coin) => {
+        const velocity = typeof coin.base_velocity === 'number' ? coin.base_velocity :
+                        (typeof coin.base_velocity === 'string' ? parseFloat(coin.base_velocity) : 0);
+        switch (velocityFilter) {
+          case 'rising':
+            return velocity > 0;
+          case 'falling':
+            return velocity < 0;
+          case 'exclude_static':
+            return velocity !== 0;
+          default:
+            return true;
+        }
+      });
+    }
+
     // Sort
     result.sort((a, b) => {
       let aVal: number, bVal: number;
@@ -95,8 +111,13 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
           bVal = b.rr_score || 0;
           break;
         case 'base_velocity':
-          aVal = a.base_velocity || 0;
-          bVal = b.base_velocity || 0;
+          aVal = typeof a.base_velocity === 'number' ? a.base_velocity :
+                 (typeof a.base_velocity === 'string' ? parseFloat(a.base_velocity) : 0);
+          bVal = typeof b.base_velocity === 'number' ? b.base_velocity :
+                 (typeof b.base_velocity === 'string' ? parseFloat(b.base_velocity) : 0);
+          // Handle NaN
+          if (isNaN(aVal)) aVal = 0;
+          if (isNaN(bVal)) bVal = 0;
           break;
         case 'price':
           aVal = a.price;
@@ -122,14 +143,7 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
     });
 
     return result;
-  }, [coinsWithMappedFields, search, minScore, sortField, sortDirection]);
-
-  // Pagination
-  const totalPages = Math.ceil(filteredAndSortedCoins.length / itemsPerPage);
-  const paginatedCoins = filteredAndSortedCoins.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  }, [coinsWithMappedFields, search, minScore, velocityFilter, sortField, sortDirection]);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -138,7 +152,6 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
       setSortField(field);
       setSortDirection(field === 'rank' ? 'asc' : 'desc');
     }
-    setCurrentPage(1);
   };
 
   const getSortIcon = (field: SortField) => {
@@ -192,7 +205,6 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
-                setCurrentPage(1);
               }}
               placeholder="Search by name or symbol..."
               className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
@@ -206,7 +218,6 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
               value={minScore}
               onChange={(e) => {
                 setMinScore(Number(e.target.value));
-                setCurrentPage(1);
               }}
               className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
             >
@@ -217,37 +228,34 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
             </select>
           </div>
 
-          {/* Items Per Page */}
+          {/* Velocity Filter */}
           <div>
-            <label className="block text-sm text-gray-400 mb-2">Per Page</label>
+            <label className="block text-sm text-gray-400 mb-2">Velocity</label>
             <select
-              value={itemsPerPage}
+              value={velocityFilter}
               onChange={(e) => {
-                setItemsPerPage(Number(e.target.value));
-                setCurrentPage(1);
+                setVelocityFilter(e.target.value as 'all' | 'rising' | 'falling' | 'exclude_static');
               }}
               className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
             >
-              <option value={25}>25</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-              <option value={200}>200</option>
-              <option value={500}>500</option>
-              <option value={10000}>ALL</option>
+              <option value="all">All</option>
+              <option value="rising">Only Rising</option>
+              <option value="falling">Only Falling</option>
+              <option value="exclude_static">Exclude Static</option>
             </select>
           </div>
         </div>
 
         {/* Results Summary */}
         <div className="mt-3 text-sm text-gray-400">
-          Showing {paginatedCoins.length} of {filteredAndSortedCoins.length} coins
+          Showing {filteredAndSortedCoins.length} coins
           {search && ` matching "${search}"`}
         </div>
       </div>
 
       {/* Table */}
       <div className="bg-gray-900 rounded-lg overflow-hidden">
-        {paginatedCoins.length === 0 ? (
+        {filteredAndSortedCoins.length === 0 ? (
           <div className="p-12 text-center">
             <div className="text-4xl mb-2">🔍</div>
             <p className="text-gray-400">No coins found matching your filters</p>
@@ -345,7 +353,7 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800">
-                {paginatedCoins.map((coin) => (
+                {filteredAndSortedCoins.map((coin) => (
                   <CoinRow key={coin.coin_id} coin={coin} />
                 ))}
               </tbody>
@@ -353,77 +361,6 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
           </div>
         )}
       </div>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="mt-6 flex items-center justify-between">
-          <div className="text-sm text-gray-400">
-            Page {currentPage} of {totalPages}
-          </div>
-
-          <div className="flex gap-2">
-            <button
-              onClick={() => setCurrentPage(1)}
-              disabled={currentPage === 1}
-              className="px-3 py-2 bg-gray-800 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
-            >
-              First
-            </button>
-            <button
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-              className="px-3 py-2 bg-gray-800 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
-            >
-              Previous
-            </button>
-
-            {/* Page Numbers */}
-            <div className="flex gap-1">
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                let pageNum;
-                if (totalPages <= 5) {
-                  pageNum = i + 1;
-                } else if (currentPage <= 3) {
-                  pageNum = i + 1;
-                } else if (currentPage >= totalPages - 2) {
-                  pageNum = totalPages - 4 + i;
-                } else {
-                  pageNum = currentPage - 2 + i;
-                }
-
-                return (
-                  <button
-                    key={pageNum}
-                    onClick={() => setCurrentPage(pageNum)}
-                    className={`px-3 py-2 rounded-lg transition-colors ${
-                      currentPage === pageNum
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-800 text-white hover:bg-gray-700'
-                    }`}
-                  >
-                    {pageNum}
-                  </button>
-                );
-              })}
-            </div>
-
-            <button
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              disabled={currentPage === totalPages}
-              className="px-3 py-2 bg-gray-800 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
-            >
-              Next
-            </button>
-            <button
-              onClick={() => setCurrentPage(totalPages)}
-              disabled={currentPage === totalPages}
-              className="px-3 py-2 bg-gray-800 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
-            >
-              Last
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
