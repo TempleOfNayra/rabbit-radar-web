@@ -29,7 +29,7 @@ export default function DashboardClient({ initialCoins }: DashboardClientProps) 
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://rabbit-radar-api.vercel.app';
-      const response = await fetch(`${apiUrl}/api/dashboard?window=${window}&minRank=1&maxRank=1000`);
+      const response = await fetch(`${apiUrl}/api/dashboard?window=${window}&minRank=1&maxRank=2000`);
 
       if (!response.ok) {
         throw new Error(`API error: ${response.status}`);
