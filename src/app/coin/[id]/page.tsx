@@ -40,7 +40,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
     );
   }
 
-  const { coin, score, history } = coinData;
+  const { coin, score, history, enhancedScores, dataMaturity } = coinData;
   const rankHistory = history.rankings;
   const scoreHistory = history.scores;
   const velocityBadge = getVelocityBadge(score?.baseVelocity || 0);
@@ -285,49 +285,137 @@ export default async function CoinDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* RabbitRadar Score */}
-      <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 rounded-lg p-6 mb-6 border border-blue-800/30">
-        <div className="text-center">
-          <div className="text-gray-300 text-sm uppercase tracking-wide mb-2">RabbitRadar Score</div>
-          <div className={`text-6xl font-bold ${getScoreColor(score?.rrScore ?? 0)}`}>
-            {score?.rrScore !== null && score?.rrScore !== undefined ? parseFloat(score.rrScore).toFixed(2) : 'N/A'}
-          </div>
-          <div className="text-gray-400 text-sm mt-2">
-            {(score?.rrScore ?? 0) >= 8 ? '🐰 Strong Rabbit Candidate' :
-             (score?.rrScore ?? 0) >= 6 ? '👀 Worth Watching' :
-             (score?.rrScore ?? 0) >= 4 ? '⚠️ Moderate Interest' :
-             '❌ Too Risky/Slow'}
-          </div>
-        </div>
+      {/* RabbitRadar Scores - V1 vs V2 Comparison */}
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-4 text-center">📊 RabbitRadar Scores - A/B Comparison</h2>
 
-        {/* Score Breakdown */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-          <div className="bg-gray-900/50 rounded-lg p-3 text-center">
-            <div className="text-gray-400 text-xs">Consistency</div>
-            <div className={`text-2xl font-bold ${getScoreColor(score?.consistencyScore ?? 0)}`}>
-              {score?.consistencyScore !== null && score?.consistencyScore !== undefined ? parseFloat(score.consistencyScore).toFixed(1) : 'N/A'}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* V1 Score (Legacy) */}
+          <div className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 rounded-lg p-6 border border-blue-800/30">
+            <div className="text-center mb-4">
+              <div className="text-gray-300 text-sm uppercase tracking-wide mb-1">V1 Score (Current)</div>
+              <div className="text-xs text-gray-500 mb-2">0-10 scale</div>
+              <div className={`text-5xl font-bold ${getScoreColor(score?.rrScore ?? 0)}`}>
+                {score?.rrScore !== null && score?.rrScore !== undefined ? parseFloat(score.rrScore).toFixed(2) : 'N/A'}
+              </div>
+              <div className="text-gray-400 text-xs mt-2">
+                {(score?.rrScore ?? 0) >= 8 ? '🐰 Strong Rabbit' :
+                 (score?.rrScore ?? 0) >= 6 ? '👀 Worth Watching' :
+                 (score?.rrScore ?? 0) >= 4 ? '⚠️ Moderate' :
+                 '❌ Risky'}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gray-900/50 rounded-lg p-3 text-center">
+                <div className="text-gray-400 text-xs">Consistency</div>
+                <div className={`text-xl font-bold ${getScoreColor(score?.consistencyScore ?? 0)}`}>
+                  {score?.consistencyScore !== null ? parseFloat(score.consistencyScore).toFixed(1) : 'N/A'}
+                </div>
+              </div>
+              <div className="bg-gray-900/50 rounded-lg p-3 text-center">
+                <div className="text-gray-400 text-xs">Volume</div>
+                <div className={`text-xl font-bold ${getScoreColor(score?.volumeScore ?? 0)}`}>
+                  {score?.volumeScore !== null ? parseFloat(score.volumeScore).toFixed(1) : 'N/A'}
+                </div>
+              </div>
+              <div className="bg-gray-900/50 rounded-lg p-3 text-center">
+                <div className="text-gray-400 text-xs">Persistence</div>
+                <div className={`text-xl font-bold ${getScoreColor(score?.persistenceScore ?? 0)}`}>
+                  {score?.persistenceScore !== null ? parseFloat(score.persistenceScore).toFixed(1) : 'N/A'}
+                </div>
+              </div>
+              <div className="bg-gray-900/50 rounded-lg p-3 text-center">
+                <div className="text-gray-400 text-xs">Red Flags</div>
+                <div className={`text-xl font-bold ${
+                  (score?.redFlagsPenalty ?? 1) < 0.3 ? 'text-green-400' :
+                  (score?.redFlagsPenalty ?? 1) < 0.5 ? 'text-yellow-400' :
+                  'text-red-400'
+                }`}>
+                  {score?.redFlagsPenalty !== null ? parseFloat(score.redFlagsPenalty).toFixed(1) : 'N/A'}
+                </div>
+              </div>
             </div>
           </div>
-          <div className="bg-gray-900/50 rounded-lg p-3 text-center">
-            <div className="text-gray-400 text-xs">Volume</div>
-            <div className={`text-2xl font-bold ${getScoreColor(score?.volumeScore ?? 0)}`}>
-              {score?.volumeScore !== null && score?.volumeScore !== undefined ? parseFloat(score.volumeScore).toFixed(1) : 'N/A'}
+
+          {/* V2 Enhanced Score (New) */}
+          <div className="bg-gradient-to-br from-green-900/40 to-emerald-900/40 rounded-lg p-6 border border-green-800/30">
+            <div className="text-center mb-4">
+              <div className="text-gray-300 text-sm uppercase tracking-wide mb-1">
+                V2 Enhanced Score (New)
+                {dataMaturity && (
+                  <span className={`ml-2 text-xs px-2 py-1 rounded ${
+                    dataMaturity.reliable ? 'bg-green-700' : 'bg-yellow-700'
+                  }`}>
+                    {dataMaturity.level}
+                  </span>
+                )}
+              </div>
+              <div className="text-xs text-gray-500 mb-2">0-100 scale</div>
+              <div className={`text-5xl font-bold ${
+                (enhancedScores?.balancedRRScore?.score ?? 0) >= 70 ? 'text-green-400' :
+                (enhancedScores?.balancedRRScore?.score ?? 0) >= 50 ? 'text-blue-400' :
+                (enhancedScores?.balancedRRScore?.score ?? 0) >= 30 ? 'text-yellow-400' :
+                'text-red-400'
+              }`}>
+                {enhancedScores?.balancedRRScore?.score !== null && enhancedScores?.balancedRRScore?.score !== undefined
+                  ? enhancedScores.balancedRRScore.score.toFixed(0)
+                  : 'N/A'}
+              </div>
+              <div className="text-gray-400 text-xs mt-2">
+                {enhancedScores?.balancedRRScore?.rating || 'Calculating...'}
+              </div>
             </div>
-          </div>
-          <div className="bg-gray-900/50 rounded-lg p-3 text-center">
-            <div className="text-gray-400 text-xs">Persistence</div>
-            <div className={`text-2xl font-bold ${getScoreColor(score?.persistenceScore ?? 0)}`}>
-              {score?.persistenceScore !== null && score?.persistenceScore !== undefined ? parseFloat(score.persistenceScore).toFixed(1) : 'N/A'}
-            </div>
-          </div>
-          <div className="bg-gray-900/50 rounded-lg p-3 text-center">
-            <div className="text-gray-400 text-xs">Red Flags</div>
-            <div className={`text-2xl font-bold ${
-              (score?.redFlagsPenalty ?? 1) < 0.3 ? 'text-green-400' :
-              (score?.redFlagsPenalty ?? 1) < 0.5 ? 'text-yellow-400' :
-              'text-red-400'
-            }`}>
-              {score?.redFlagsPenalty !== null && score?.redFlagsPenalty !== undefined ? parseFloat(score.redFlagsPenalty).toFixed(1) : 'N/A'}
+
+            <div className="grid grid-cols-3 gap-2">
+              <div className="bg-gray-900/50 rounded-lg p-2 text-center">
+                <div className="text-gray-400 text-xs">Momentum</div>
+                <div className={`text-lg font-bold ${
+                  (enhancedScores?.momentumStrength?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
+                }`}>
+                  {enhancedScores?.momentumStrength?.score !== null ? enhancedScores.momentumStrength.score.toFixed(0) : 'N/A'}
+                </div>
+              </div>
+              <div className="bg-gray-900/50 rounded-lg p-2 text-center">
+                <div className="text-gray-400 text-xs">Velocity</div>
+                <div className={`text-lg font-bold ${
+                  (enhancedScores?.velocityAcceleration?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
+                }`}>
+                  {enhancedScores?.velocityAcceleration?.score !== null ? enhancedScores.velocityAcceleration.score.toFixed(0) : 'N/A'}
+                </div>
+              </div>
+              <div className="bg-gray-900/50 rounded-lg p-2 text-center">
+                <div className="text-gray-400 text-xs">Volume</div>
+                <div className={`text-lg font-bold ${
+                  (enhancedScores?.volumeStrength?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
+                }`}>
+                  {enhancedScores?.volumeStrength?.score !== null ? enhancedScores.volumeStrength.score.toFixed(0) : 'N/A'}
+                </div>
+              </div>
+              <div className="bg-gray-900/50 rounded-lg p-2 text-center">
+                <div className="text-gray-400 text-xs">Alignment</div>
+                <div className={`text-lg font-bold ${
+                  (enhancedScores?.volumeRankAlignment?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
+                }`}>
+                  {enhancedScores?.volumeRankAlignment?.score !== null ? enhancedScores.volumeRankAlignment.score.toFixed(0) : 'N/A'}
+                </div>
+              </div>
+              <div className="bg-gray-900/50 rounded-lg p-2 text-center">
+                <div className="text-gray-400 text-xs">Liquidity</div>
+                <div className={`text-lg font-bold ${
+                  (enhancedScores?.liquidity?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
+                }`}>
+                  {enhancedScores?.liquidity?.score !== null ? enhancedScores.liquidity.score.toFixed(0) : 'N/A'}
+                </div>
+              </div>
+              <div className="bg-gray-900/50 rounded-lg p-2 text-center">
+                <div className="text-gray-400 text-xs">Sustain</div>
+                <div className={`text-lg font-bold ${
+                  (enhancedScores?.sustainability?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
+                }`}>
+                  {enhancedScores?.sustainability?.score !== null ? enhancedScores.sustainability.score.toFixed(0) : 'N/A'}
+                </div>
+              </div>
             </div>
           </div>
         </div>

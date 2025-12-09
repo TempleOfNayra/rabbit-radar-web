@@ -100,6 +100,156 @@ export interface ScoreHistory {
   base_velocity: number;
 }
 
+// ============================================================================
+// V2 ENHANCED SCORES TYPES
+// ============================================================================
+
+export interface MomentumStrengthResult {
+  score: number;
+  shortSlope: number;
+  mediumSlope: number;
+  shortPercentile: number;
+  mediumPercentile: number;
+  maWindow: number;
+}
+
+export interface VelocityAccelerationResult {
+  score: number;
+  shortVelocity: number;
+  mediumVelocity: number;
+  day0Velocity: number;
+  shortRatio: number;
+  mediumRatio: number;
+}
+
+export interface VolumeStrengthResult {
+  score: number;
+  shortAvgVolume: number;
+  mediumAvgVolume: number;
+  baselineVolume: number;
+  shortRatio: number;
+  mediumRatio: number;
+}
+
+export interface VolumeRankAlignmentResult {
+  score: number;
+  correlationCoefficient: number;
+  dataPoints: number;
+}
+
+export interface LiquidityResult {
+  score: number;
+  liquidityRatio: number;
+}
+
+export interface SustainabilityResult {
+  score: number;
+  streakDays: number;
+  direction: 'improving' | 'declining';
+}
+
+export interface BalancedRRScoreResult {
+  score: number;
+  rating: string;
+  breakdown: {
+    momentumStrength: number;
+    velocityAcceleration: number;
+    volumeStrength: number;
+    volumeRankAlignment: number;
+    liquidity: number;
+    sustainability: number;
+  };
+}
+
+export interface EnhancedScores {
+  momentumStrength: MomentumStrengthResult;
+  velocityAcceleration: VelocityAccelerationResult;
+  volumeStrength: VolumeStrengthResult;
+  volumeRankAlignment: VolumeRankAlignmentResult;
+  liquidity: LiquidityResult;
+  sustainability: SustainabilityResult;
+  balancedRRScore: BalancedRRScoreResult;
+}
+
+export interface DataMaturity {
+  level: 'LOW' | 'MODERATE' | 'GOOD' | 'HIGH';
+  label: string;
+  daysTracked: number;
+  reliable: boolean;
+}
+
+export interface FormulaDefinition {
+  id: string;
+  name: string;
+  description: string;
+  category: 'momentum' | 'volume' | 'composite' | 'metadata';
+  formula: string;
+  constants: Record<string, any>;
+  steps: string[];
+  interpretation: {
+    high: string;
+    medium?: string;
+    low: string;
+  };
+  examples?: Array<{
+    scenario: string;
+    inputs: Record<string, any>;
+    output: number;
+    explanation: string;
+  }>;
+  relatedFormulas?: string[];
+  // Calculated values (injected by API)
+  calculatedValues?: any;
+  score?: number;
+}
+
+export interface FormulasWithValues {
+  'momentum-strength': FormulaDefinition;
+  'velocity-acceleration': FormulaDefinition;
+  'volume-strength': FormulaDefinition;
+  'volume-rank-alignment': FormulaDefinition;
+  'liquidity': FormulaDefinition;
+  'sustainability': FormulaDefinition;
+  'balanced-rr-score': FormulaDefinition;
+  'data-maturity': FormulaDefinition;
+}
+
+// ============================================================================
+// FORMULAS API TYPES
+// ============================================================================
+
+export interface FormulasListResponse {
+  success: true;
+  count: number;
+  formulas: Array<{
+    id: string;
+    name: string;
+    description: string;
+    category: 'momentum' | 'volume' | 'composite' | 'metadata';
+  }>;
+  note: string;
+  availableIds: string[];
+  timestamp: string;
+}
+
+export interface FormulaDetailsResponse {
+  success: true;
+  formula: FormulaDefinition;
+  note: string;
+  timestamp: string;
+}
+
+export interface EnhancedScoreHistoryPoint {
+  timestamp: string;
+  momentumStrength: number;
+  velocityAcceleration: number;
+  volumeStrength: number;
+  volumeRankAlignment: number;
+  liquidity: number;
+  sustainability: number;
+  balancedRRScore: number;
+}
+
 export interface CoinDetailsResponse {
   success: boolean;
   coin: {
@@ -128,5 +278,10 @@ export interface CoinDetailsResponse {
   metadata: Record<string, unknown> | null;
   exchangeVolumes: Record<string, unknown> | null;
   watchList: Record<string, unknown> | null;
+  // V2 Enhanced Scores (NEW)
+  enhancedScores: EnhancedScores | null;
+  dataMaturity: DataMaturity | null;
+  formulasWithValues: FormulasWithValues | null;
+  enhancedScoresHistory: EnhancedScoreHistoryPoint[];
   timestamp: string;
 }
