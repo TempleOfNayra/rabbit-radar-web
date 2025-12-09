@@ -373,7 +373,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
                 <div className={`text-lg font-bold ${
                   (enhancedScores?.momentumStrength?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
                 }`}>
-                  {enhancedScores?.momentumStrength?.score !== null ? enhancedScores.momentumStrength.score.toFixed(0) : 'N/A'}
+                  {enhancedScores?.momentumStrength?.score !== null && enhancedScores?.momentumStrength?.score !== undefined ? enhancedScores.momentumStrength.score.toFixed(0) : 'N/A'}
                 </div>
               </div>
               <div className="bg-gray-900/50 rounded-lg p-2 text-center">
@@ -381,7 +381,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
                 <div className={`text-lg font-bold ${
                   (enhancedScores?.velocityAcceleration?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
                 }`}>
-                  {enhancedScores?.velocityAcceleration?.score !== null ? enhancedScores.velocityAcceleration.score.toFixed(0) : 'N/A'}
+                  {enhancedScores?.velocityAcceleration?.score !== null && enhancedScores?.velocityAcceleration?.score !== undefined ? enhancedScores.velocityAcceleration.score.toFixed(0) : 'N/A'}
                 </div>
               </div>
               <div className="bg-gray-900/50 rounded-lg p-2 text-center">
@@ -389,7 +389,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
                 <div className={`text-lg font-bold ${
                   (enhancedScores?.volumeStrength?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
                 }`}>
-                  {enhancedScores?.volumeStrength?.score !== null ? enhancedScores.volumeStrength.score.toFixed(0) : 'N/A'}
+                  {enhancedScores?.volumeStrength?.score !== null && enhancedScores?.volumeStrength?.score !== undefined ? enhancedScores.volumeStrength.score.toFixed(0) : 'N/A'}
                 </div>
               </div>
               <div className="bg-gray-900/50 rounded-lg p-2 text-center">
@@ -397,7 +397,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
                 <div className={`text-lg font-bold ${
                   (enhancedScores?.volumeRankAlignment?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
                 }`}>
-                  {enhancedScores?.volumeRankAlignment?.score !== null ? enhancedScores.volumeRankAlignment.score.toFixed(0) : 'N/A'}
+                  {enhancedScores?.volumeRankAlignment?.score !== null && enhancedScores?.volumeRankAlignment?.score !== undefined ? enhancedScores.volumeRankAlignment.score.toFixed(0) : 'N/A'}
                 </div>
               </div>
               <div className="bg-gray-900/50 rounded-lg p-2 text-center">
@@ -405,7 +405,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
                 <div className={`text-lg font-bold ${
                   (enhancedScores?.liquidity?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
                 }`}>
-                  {enhancedScores?.liquidity?.score !== null ? enhancedScores.liquidity.score.toFixed(0) : 'N/A'}
+                  {enhancedScores?.liquidity?.score !== null && enhancedScores?.liquidity?.score !== undefined ? enhancedScores.liquidity.score.toFixed(0) : 'N/A'}
                 </div>
               </div>
               <div className="bg-gray-900/50 rounded-lg p-2 text-center">
@@ -413,7 +413,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
                 <div className={`text-lg font-bold ${
                   (enhancedScores?.sustainability?.score ?? 0) >= 70 ? 'text-green-400' : 'text-gray-300'
                 }`}>
-                  {enhancedScores?.sustainability?.score !== null ? enhancedScores.sustainability.score.toFixed(0) : 'N/A'}
+                  {enhancedScores?.sustainability?.score !== null && enhancedScores?.sustainability?.score !== undefined ? enhancedScores.sustainability.score.toFixed(0) : 'N/A'}
                 </div>
               </div>
             </div>
