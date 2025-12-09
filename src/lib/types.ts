@@ -184,7 +184,7 @@ export interface FormulaDefinition {
   description: string;
   category: 'momentum' | 'volume' | 'composite' | 'metadata';
   formula: string;
-  constants: Record<string, any>;
+  constants: Record<string, number | string | boolean>;
   steps: string[];
   interpretation: {
     high: string;
@@ -193,13 +193,13 @@ export interface FormulaDefinition {
   };
   examples?: Array<{
     scenario: string;
-    inputs: Record<string, any>;
+    inputs: Record<string, number | string | boolean>;
     output: number;
     explanation: string;
   }>;
   relatedFormulas?: string[];
   // Calculated values (injected by API)
-  calculatedValues?: any;
+  calculatedValues?: Record<string, number | string | boolean | null>;
   score?: number;
 }
 
