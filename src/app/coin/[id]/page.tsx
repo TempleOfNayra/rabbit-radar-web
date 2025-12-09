@@ -310,19 +310,19 @@ export default async function CoinDetailPage({ params }: PageProps) {
               <div className="bg-gray-900/50 rounded-lg p-3 text-center">
                 <div className="text-gray-400 text-xs">Consistency</div>
                 <div className={`text-xl font-bold ${getScoreColor(score?.consistencyScore ?? 0)}`}>
-                  {score?.consistencyScore !== null ? score.consistencyScore.toFixed(1) : 'N/A'}
+                  {score?.consistencyScore !== null && score?.consistencyScore !== undefined ? score.consistencyScore.toFixed(1) : 'N/A'}
                 </div>
               </div>
               <div className="bg-gray-900/50 rounded-lg p-3 text-center">
                 <div className="text-gray-400 text-xs">Volume</div>
                 <div className={`text-xl font-bold ${getScoreColor(score?.volumeScore ?? 0)}`}>
-                  {score?.volumeScore !== null ? score.volumeScore.toFixed(1) : 'N/A'}
+                  {score?.volumeScore !== null && score?.volumeScore !== undefined ? score.volumeScore.toFixed(1) : 'N/A'}
                 </div>
               </div>
               <div className="bg-gray-900/50 rounded-lg p-3 text-center">
                 <div className="text-gray-400 text-xs">Persistence</div>
                 <div className={`text-xl font-bold ${getScoreColor(score?.persistenceScore ?? 0)}`}>
-                  {score?.persistenceScore !== null ? score.persistenceScore.toFixed(1) : 'N/A'}
+                  {score?.persistenceScore !== null && score?.persistenceScore !== undefined ? score.persistenceScore.toFixed(1) : 'N/A'}
                 </div>
               </div>
               <div className="bg-gray-900/50 rounded-lg p-3 text-center">
@@ -332,7 +332,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
                   (score?.redFlagsPenalty ?? 1) < 0.5 ? 'text-yellow-400' :
                   'text-red-400'
                 }`}>
-                  {score?.redFlagsPenalty !== null ? score.redFlagsPenalty.toFixed(1) : 'N/A'}
+                  {score?.redFlagsPenalty !== null && score?.redFlagsPenalty !== undefined ? score.redFlagsPenalty.toFixed(1) : 'N/A'}
                 </div>
               </div>
             </div>
