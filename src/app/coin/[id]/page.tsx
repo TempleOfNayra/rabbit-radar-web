@@ -153,7 +153,7 @@ export default async function CoinDetailPage({ params }: PageProps) {
           </div>
           <div className="bg-gray-800 rounded-lg p-4">
             <div className="text-gray-400 text-sm">Base Velocity</div>
-            <div className="text-xl font-semibold mt-1">{score?.baseVelocity !== null && score?.baseVelocity !== undefined ? parseFloat(score.baseVelocity).toFixed(4) : 'N/A'}</div>
+            <div className="text-xl font-semibold mt-1">{score?.baseVelocity !== null && score?.baseVelocity !== undefined ? score.baseVelocity.toFixed(4) : 'N/A'}</div>
           </div>
         </div>
       </div>
