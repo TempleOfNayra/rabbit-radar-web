@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import WindowSelector from './WindowSelector';
 
 interface VelocityChartProps {
   coinId: string;
+  window: 2 | 3 | 7 | 14 | 30 | 90 | 180 | 270 | 365;
 }
 
 interface VelocityDataPoint {
@@ -14,11 +14,10 @@ interface VelocityDataPoint {
   rr_score: number;
 }
 
-export default function VelocityChart({ coinId }: VelocityChartProps) {
+export default function VelocityChart({ coinId, window }: VelocityChartProps) {
   const [data, setData] = useState<VelocityDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [window, setWindow] = useState<2 | 3 | 7 | 14 | 30 | 90 | 180 | 270 | 365>(14);
 
   useEffect(() => {
     async function fetchVelocityData() {
@@ -90,15 +89,8 @@ export default function VelocityChart({ coinId }: VelocityChartProps) {
     <div className="bg-gray-900 rounded-lg p-6">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-xl font-bold">
-          Velocity History
+          Velocity History ({window}d window)
         </h3>
-
-        <WindowSelector
-          selectedWindow={window}
-          onWindowChange={setWindow}
-          disabled={loading}
-          size="sm"
-        />
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
