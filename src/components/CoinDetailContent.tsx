@@ -28,13 +28,20 @@ interface CoinData {
     phase: string;
     daysTracking: number;
     window: number;
+    startRank: number;
+    currentRank: number;
   };
   history: {
     rankings: unknown[];
     scores: unknown[];
   };
-  enhancedScores: unknown;
-  dataMaturity: unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  enhancedScores?: any;
+  dataMaturity?: {
+    reliable: boolean;
+    daysAvailable: number;
+    level: string;
+  };
 }
 
 export default function CoinDetailContent({ coinId }: CoinDetailContentProps) {
@@ -87,7 +94,7 @@ export default function CoinDetailContent({ coinId }: CoinDetailContentProps) {
 
   if (!data) return null;
 
-  const { coin, score } = data;
+  const { coin, score, dataMaturity, enhancedScores } = data;
 
   // Helper functions for score interpretation
   const getVelocityInterpretation = (velocity: number) => {
@@ -276,7 +283,7 @@ export default function CoinDetailContent({ coinId }: CoinDetailContentProps) {
               <div className="text-center">
                 <div className="text-xs text-gray-500 mb-1">Started</div>
                 <div className="text-4xl font-black text-red-400">
-                  #{score?.startRank || rankHistory[0]?.rank || coin.currentRank}
+                  #{score?.startRank || coin.currentRank}
                 </div>
                 <div className="text-xs text-gray-500 mt-1">
                   {window}d ago
