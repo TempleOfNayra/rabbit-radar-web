@@ -3,16 +3,43 @@
 import { useEffect, useState } from 'react';
 import WindowSelector from './WindowSelector';
 import VelocityChart from './VelocityChart';
-import { formatNumber, getScoreColor } from '@/lib/utils';
-import LineChart from './LineChart';
+import { getScoreColor } from '@/lib/utils';
 
 interface CoinDetailContentProps {
   coinId: string;
 }
 
+interface CoinData {
+  coin: {
+    name: string;
+    symbol: string;
+    currentRank: number;
+    currentPrice: number;
+    marketCap: number;
+    volume24h: number;
+  };
+  score: {
+    baseVelocity: number;
+    rrScore: number;
+    consistencyScore: number;
+    volumeScore: number;
+    persistenceScore: number;
+    redFlagsPenalty: number;
+    phase: string;
+    daysTracking: number;
+    window: number;
+  };
+  history: {
+    rankings: unknown[];
+    scores: unknown[];
+  };
+  enhancedScores: unknown;
+  dataMaturity: unknown;
+}
+
 export default function CoinDetailContent({ coinId }: CoinDetailContentProps) {
   const [window, setWindow] = useState<2 | 3 | 7 | 14 | 30 | 90 | 180 | 270 | 365>(14);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<CoinData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -60,9 +87,7 @@ export default function CoinDetailContent({ coinId }: CoinDetailContentProps) {
 
   if (!data) return null;
 
-  const { coin, score, history, enhancedScores, dataMaturity } = data;
-  const rankHistory = history.rankings;
-  const scoreHistory = history.scores;
+  const { coin, score } = data;
 
   // Helper functions for score interpretation
   const getVelocityInterpretation = (velocity: number) => {
