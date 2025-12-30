@@ -107,7 +107,7 @@ export default function CoinDetailContent({ coinId }: CoinDetailContentProps) {
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold">Time Window</h3>
           <span className="text-sm text-gray-400">
-            Analyzing {window} day{window !== 1 ? 's' : ''} of data
+            Analyzing {window} days of data
           </span>
         </div>
         <WindowSelector
